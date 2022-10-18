@@ -21,11 +21,18 @@ repos:
         entry: black
         language: system
         types: [python]
+        args: [--diff, --check]
         require_serial: true
       - id: check-added-large-files
         name: Check for added large files
         entry: check-added-large-files
         language: system
+      - id: mypy
+        name: mypy - Static Type Checking
+        entry: mypy
+        language: system
+        types: [python]
+        args: [--no-strict-optional, --ignore-missing-imports]
       - id: check-toml
         name: Check Toml
         entry: check-toml
