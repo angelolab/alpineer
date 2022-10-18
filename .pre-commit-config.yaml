@@ -9,7 +9,7 @@ repos:
             "--profile",
             "black",
             "-l",
-            "99",
+            "100",
             "multi_line_output",
             "3",
             "src/tmi",
@@ -42,19 +42,6 @@ repos:
         language: system
         types: [text]
         stages: [commit, push, manual]
-      - id: flake8
-        name: flake8
-        entry: flake8
-        language: system
-        types: [python]
-        require_serial: true
-      - id: pyupgrade
-        name: pyupgrade
-        description: Automatically upgrade syntax for newer versions.
-        entry: pyupgrade
-        language: system
-        types: [python]
-        args: [--py37-plus]
       - id: trailing-whitespace
         name: Trim Trailing Whitespace
         entry: trailing-whitespace-fixer

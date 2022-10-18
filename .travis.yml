@@ -1,6 +1,6 @@
 language: python
 python:
-  - 3.7
+  - 3.8
 git:
   depth: false
 
@@ -13,6 +13,7 @@ cache:
   pip: true
   directories:
     - "$HOME/.cache/pre-commit"
+    - "$HOME/.cache/pypoetry"
 
 # Environment variables
 env:
@@ -41,7 +42,7 @@ jobs:
   include:
     # We can change the python build version here to whatever we decide on.
     - stage: build
-      python: 3.7
+      python: 3.8
       script: poetry build
 
 after_success:

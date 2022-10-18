@@ -130,7 +130,7 @@ dmypy.json
 
 # Editor environments / workspaces
 .vscode/
-
+.idea/
 
 # Coverage Output
 cov.xml
