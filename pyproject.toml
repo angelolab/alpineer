@@ -50,7 +50,7 @@ build-backend = "poetry.core.masonry.api"
 python_version="3.8"
 warn_return_any = true
 warn_unused_configs = true
-ignore_missing_imports = true
+ignore_missing_imports = false
 
 ## LINTING, FORMATTING ##
 
