@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def save_figure(save_dir: str, save_file: str, dpi: Optional[float] = 300) -> None:
+def save_figure(save_dir, save_file: str, dpi: Optional[float] = 300) -> None:
     """Saves the figure in a directory.
 
     Args:
@@ -28,7 +28,7 @@ def save_figure(save_dir: str, save_file: str, dpi: Optional[float] = 300) -> No
     plt.savefig(os.path.join(save_dir, save_file), dpi=dpi)
 
 
-def create_invalid_data_str(invalid_data: list[str]) -> str:
+def create_invalid_data_str(invalid_data: List[str]) -> str:
     """Creates a easy to read string for ValueError statements.
 
     Args:
