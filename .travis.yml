@@ -42,7 +42,6 @@ jobs:
   include:
     # We can change the python build version here to whatever we decide on.
     - stage: build
-      python: 3.8
       script: poetry build
 
 after_success:
