@@ -101,4 +101,3 @@ filterwarnings = [
 ]
 testpaths = ["tests"]
 norecursedirs = ["tests/utilities"]
-ignore_missing_imports = true
