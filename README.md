@@ -10,7 +10,7 @@ Toolbox for Multiplexed Imaging. Contains scripts and little tools which are use
 
 ## Requirements
 
-* [Python Poetry]("https://python-poetry.org")
+* [Python Poetry](https://python-poetry.org)
 * [pre-commit](https://pre-commit.com)
 
 ## Setup
