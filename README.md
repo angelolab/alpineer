@@ -2,49 +2,65 @@
 
 Toolbox for Multiplexed Imaging. Contains scripts and little tools which are used throughout [ark-analysis](https://github.com/angelolab/ark-analysis), [mibi-bin-tools](https://github.com/angelolab/mibi-bin-tools), and [toffy](https://github.com/angelolab/toffy)
 
+- [tmi](#tmi)
+  - [Requirements](#requirements)
+  - [Setup](#setup)
+  - [Development Notes](#development-notes)
+  - [Questions?](#questions)
+
 ## Requirements
 
-Latest version of conda (miniconda prefered)
+* [Python Poetry]("https://python-poetry.org")
+* [pre-commit](https://pre-commit.com)
 
 ## Setup
 
-Clone the repo
+1. Clone the repo: `git clone https://github.com/angelolab/tmi.git`
+2. `cd` into `tmi`.
+3. Install the pre-commit hooks with `pre-commit install`
+4. Set up `python-poetry` for `tmi`
+   1. Run `poetry install` to install `tmi` which will install `tmi` into your virtual environment.
+   2. Run `poetry install --with test`: Installs all the [dependencies needed for tests](pyproject.toml) (labeled under `tool.poetry.group.test.dependencies`)
+   3. Run `poetry install --with dev`: Installs all the [dependencies needed for development](pyproject.coml) (labeled under `tool.poetry.group.dev.dependencies`)
+   4. You may combine these as well with `poetry install --with dev,test`. Installing the base dependencies and the two optional groups.
+5. In order to test to see if Poetry is working properly, run `poetry show --tree`. This will output the dependency tree for the base dependencies (labeled under `tool.poetry.dependencies`).
 
-```
-git clone https://github.com/angelolab/tmi.git
-```
+    Sample Output:
 
-Move into directory and build environment
+   ```sh
+   matplotlib 3.6.1 Python plotting package
+   ├── contourpy >=1.0.1
+   │   └── numpy >=1.16
+   ├── cycler >=0.10
+   ├── fonttools >=4.22.0
+   ├── kiwisolver >=1.0.1
+   ├── numpy >=1.19
+   ├── packaging >=20.0
+   │   └── pyparsing >=2.0.2,<3.0.5 || >3.0.5
+   ├── pillow >=6.2.0
+   ├── pyparsing >=2.2.1
+   ├── python-dateutil >=2.7
+   │   └── six >=1.5
+   └── setuptools-scm >=7
+       ├── packaging >=20.0
+       │   └── pyparsing >=2.0.2,<3.0.5 || >3.0.5
+       ├── setuptools *
+       ├── tomli >=1.0.0
+       └── typing-extensions *
+   natsort 8.2.0 Simple yet flexible natural sorting in Python.
+   numpy 1.23.4 NumPy is the fundamental package for array computing with Python.
+   pillow 9.1.1 Python Imaging Library (Fork)
+   pip 22.3 The PyPA recommended tool for installing Python packages.
+   tifffile 2022.10.10 Read and write TIFF files
+   └── numpy >=1.19.2
+   ```
 
-```
-cd tmi
-conda env create -f environment.yml
-```
 
-## Usage
+## Development Notes
 
-Activate the environment
-
-```
-conda activate tmi_env
-```
-
-## Updating
-
-Run the command
-
-```
-git pull
-```
-
-> The following step will probably be changed in the future
-
-You may have to rebuild the environment which can be done via:
-
-```
-conda remove --name tmi_env --all
-conda env create -f environment.yml
-```
+1. I'd highly suggest refering to Poetry's extensive documentation on [installing packages](https://python-poetry.org/docs/master/cli/#add), [updating packages](https://python-poetry.org/docs/master/cli/#update) and more.
+2. Tests can be ran with `poetry run pytest`. No additional arguments needed, they are all stored in the [`pyproject.toml`](pyproject.toml) file.
+   1. As an aside, if you need to execute code in the poetry venv, use prefix your command with [`poetry run`](https://python-poetry.org/docs/master/cli/#run)
 
 ## Questions?
 
