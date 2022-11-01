@@ -19,7 +19,7 @@ Toolbox for Multiplexed Imaging. Contains scripts and little tools which are use
 2. `cd` into `tmi`.
 3. Install the pre-commit hooks with `pre-commit install`
 4. Set up `python-poetry` for `tmi`
-   1. Run `poetry install` to install `tmi` which will install `tmi` into your virtual environment.
+   1. Run `poetry install` to install `tmi` into your virtual environment. (Poetry utilizes [Python's Virtual Environments](https://docs.python.org/3/tutorial/venv.html))
    2. Run `poetry install --with test`: Installs all the [dependencies needed for tests](pyproject.toml) (labeled under `tool.poetry.group.test.dependencies`)
    3. Run `poetry install --with dev`: Installs all the [dependencies needed for development](pyproject.coml) (labeled under `tool.poetry.group.dev.dependencies`)
    4. You may combine these as well with `poetry install --with dev,test`. Installing the base dependencies and the two optional groups.
