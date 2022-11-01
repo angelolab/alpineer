@@ -9,28 +9,38 @@ repos:
       - id: trailing-whitespace
         name: Remove Trailing Whitespace
         stages: [commit, push, manual]
-  - repo: local
+  # - repo: local
+  #   hooks:
+  #     - id: black
+  #       name: Formatting - Black
+  #       entry: poetry run black
+  #       language: system
+  #       types: [python]
+  #       require_serial: false
+  #     - id: isort
+  #       name: Formatting - isort
+  #       entry: poetry run isort
+  #       language: system
+  #       types: [python]
+  - repo: https://github.com/psf/black
+    rev: 21.9b0
     hooks:
       - id: black
-        name: Formatting - Black
-        entry: poetry run black
-        language: system
-        types: [python]
-        require_serial: false
-      - id: mypy
-        name: mypy - Static Type Checking
-        entry: poetry run mypy .
-        language: system
-        types: [python]
+        name: Formatting - black
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
       - id: isort
         name: Formatting - isort
-        entry: poetry run isort
-        language: system
-        types: [python]
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v0.982
     hooks:
       - id: mypy
+        name: Static Type Checking - mypy
+        additional_dependencies: [types-PyYAML]
+        exclude: ^tests/
+        args:
+          [--ignore-missing-imports, --follow-imports=skip, --show-error-codes]
   - repo: https://github.com/python-poetry/poetry
     rev: 1.2.2
     hooks:
