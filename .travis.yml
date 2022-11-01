@@ -34,15 +34,20 @@ install:
   - poetry install --with dev,test
   - pre-commit install-hooks
 
-# Run the linting (before_script)
-before_script: pre-commit run --all-files
+# # Run the linting (before_script)
+# before_script: pre-commit run --all-files
 
 jobs:
   include:
     # We can change the python build version here to whatever we decide on.
+    - stage: "Linting, Typechecking, Formatting"
+      name: "Linting, Typechecking, Formatting"
+      script: pre-commit run --all-files
     - stage: test
+      name: "Test"
       script: poetry run pytest
     - stage: build
+      name: "Build"
       script: poetry build
 
 after_success:
