@@ -31,11 +31,8 @@ before_install:
 # Installs all packages needed for tmi in a virtual environment.
 # Installs the hooks for checking formatting.
 install:
-  - poetry install --with dev,test
+  - poetry install --with test
   - pre-commit install-hooks
-
-# # Run the linting (before_script)
-# before_script: pre-commit run --all-files
 
 jobs:
   include:
