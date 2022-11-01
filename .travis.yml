@@ -43,10 +43,10 @@ jobs:
     - stage: "Linting, Typechecking, Formatting"
       name: "Linting, Typechecking, Formatting"
       script: pre-commit run --all-files
-    - stage: test
+    - stage: "Tests"
       name: "Test"
       script: poetry run pytest
-    - stage: build
+    - stage: "Build"
       name: "Build"
       script: poetry build
 
