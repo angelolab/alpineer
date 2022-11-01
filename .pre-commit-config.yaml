@@ -10,7 +10,7 @@ repos:
         name: Remove Trailing Whitespace
         stages: [commit, push, manual]
   - repo: https://github.com/psf/black
-    rev: 21.9b0
+    rev: 22.10.0
     hooks:
       - id: black
         name: Formatting - black
@@ -33,4 +33,6 @@ repos:
     hooks:
       - id: poetry-check
         name: Check - Poetry Configuration
+      - id: poetry-lock
+        name: Lock poetry.lock
         stages: [commit, push, manual]
