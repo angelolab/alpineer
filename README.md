@@ -11,7 +11,21 @@ Toolbox for Multiplexed Imaging. Contains scripts and little tools which are use
 ## Requirements
 
 * [Python Poetry](https://python-poetry.org)
+  * Recommeded to install it with either:
+    * [**Official Installer:**](https://python-poetry.org/docs/master/#installing-with-the-official-installer)
+        ```sh
+        curl -sSL https://install.python-poetry.org | python3 -
+        ```
+    * [**pipx**](https://python-poetry.org/docs/master/#installing-with-pipx), (requires [`pipx`](https://pypa.github.io/pipx/))
+      * If you are using `pipx`, run the following installation commands
+        ```sh
+        brew install pipx
+        pipx ensurepath
+        ```
 * [pre-commit](https://pre-commit.com)
+    ```sh
+    brew isntall pre-commit
+    ```
 
 ## Setup
 
@@ -62,6 +76,12 @@ Toolbox for Multiplexed Imaging. Contains scripts and little tools which are use
 2. Tests can be ran with `poetry run pytest`. No additional arguments needed, they are all stored in the [`pyproject.toml`](pyproject.toml) file.
    1. As an aside, if you need to execute code in the poetry venv, use prefix your command with [`poetry run`](https://python-poetry.org/docs/master/cli/#run)
 
+## Updating
+
+* In order to update `tmi`'s dependencies we can run:
+  *  `poetry update`: for all dependencies
+  *  `poetry update <package>`: where `<package>` can be something like `numpy`.
+* To update Poetry itself, run `poetry self update`.
 ## Questions?
 
 Feel free to open an issue on our [GitHub page](https://github.com/angelolab/tmi/issues)
