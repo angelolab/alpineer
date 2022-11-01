@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Editor environments / workspaces
+.vscode/
+.idea/
+
+# Coverage Output
+cov.xml
+
+# MacOS Files
+.DS_Store
