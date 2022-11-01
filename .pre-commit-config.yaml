@@ -19,7 +19,7 @@ repos:
         require_serial: false
       - id: mypy
         name: mypy - Static Type Checking
-        entry: poetry run mypy
+        entry: poetry run mypy .
         language: system
         types: [python]
       - id: isort
