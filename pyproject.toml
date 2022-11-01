@@ -24,7 +24,7 @@ numpy = "^1.23.4"
 natsort = "^8.2.0"
 tifffile = "^2022.10.10"
 matplotlib = "^3.6.1"
-pillow = "~9.2"
+pillow = "~9.1"
 
 [tool.poetry.group.test]
 optional = true
