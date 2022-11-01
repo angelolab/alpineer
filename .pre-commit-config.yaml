@@ -33,6 +33,4 @@ repos:
     hooks:
       - id: poetry-check
         name: Check - Poetry Configuration
-      - id: poetry-lock
-        name: Lock poetry.lock
         stages: [commit, push, manual]
