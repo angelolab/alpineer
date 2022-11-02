@@ -27,12 +27,6 @@ before_install:
   - poetry --version
   - pip install -U pre-commit coveralls pip
 
-# Installs all packages needed for tmi in a virtual environment.
-# Installs the hooks for checking formatting.
-# install:
-#   - poetry install --with test
-#   - pre-commit install-hooks
-
 jobs:
   include:
     # We can change the python build version here to whatever we decide on.
