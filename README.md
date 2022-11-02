@@ -10,8 +10,22 @@ Toolbox for Multiplexed Imaging. Contains scripts and little tools which are use
 
 ## Requirements
 
-* [Python Poetry]("https://python-poetry.org")
+* [Python Poetry](https://python-poetry.org)
+  * Recommeded to install it with either:
+    * [**Official Installer:**](https://python-poetry.org/docs/master/#installing-with-the-official-installer)
+        ```sh
+        curl -sSL https://install.python-poetry.org | python3 -
+        ```
+    * [**pipx**](https://python-poetry.org/docs/master/#installing-with-pipx), (requires [`pipx`](https://pypa.github.io/pipx/))
+      * If you are using `pipx`, run the following installation commands
+        ```sh
+        brew install pipx
+        pipx ensurepath
+        ```
 * [pre-commit](https://pre-commit.com)
+    ```sh
+    brew isntall pre-commit
+    ```
 
 ## Setup
 
@@ -19,7 +33,7 @@ Toolbox for Multiplexed Imaging. Contains scripts and little tools which are use
 2. `cd` into `tmi`.
 3. Install the pre-commit hooks with `pre-commit install`
 4. Set up `python-poetry` for `tmi`
-   1. Run `poetry install` to install `tmi` which will install `tmi` into your virtual environment.
+   1. Run `poetry install` to install `tmi` into your virtual environment. (Poetry utilizes [Python's Virtual Environments](https://docs.python.org/3/tutorial/venv.html))
    2. Run `poetry install --with test`: Installs all the [dependencies needed for tests](pyproject.toml) (labeled under `tool.poetry.group.test.dependencies`)
    3. Run `poetry install --with dev`: Installs all the [dependencies needed for development](pyproject.coml) (labeled under `tool.poetry.group.dev.dependencies`)
    4. You may combine these as well with `poetry install --with dev,test`. Installing the base dependencies and the two optional groups.
@@ -62,6 +76,12 @@ Toolbox for Multiplexed Imaging. Contains scripts and little tools which are use
 2. Tests can be ran with `poetry run pytest`. No additional arguments needed, they are all stored in the [`pyproject.toml`](pyproject.toml) file.
    1. As an aside, if you need to execute code in the poetry venv, use prefix your command with [`poetry run`](https://python-poetry.org/docs/master/cli/#run)
 
+## Updating
+
+* In order to update `tmi`'s dependencies we can run:
+  *  `poetry update`: for all dependencies
+  *  `poetry update <package>`: where `<package>` can be something like `numpy`.
+* To update Poetry itself, run `poetry self update`.
 ## Questions?
 
 Feel free to open an issue on our [GitHub page](https://github.com/angelolab/tmi/issues)
