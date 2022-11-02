@@ -21,30 +21,37 @@ env:
     # Set Matplotlib backend to Agg (Non-interactive, only writes to files)
     - MPLBACKEND=Agg
 
-# Installs poetry, pre-commit, coveralls
+# Installs poetry, pre-commit, coveralls, and upgrades pip
 before_install:
   - curl -sSL https://install.python-poetry.org | python3 -
   - poetry --version
-  - pip install pre-commit
-  - pip install coveralls
+  - pip install -U pre-commit coveralls pip
 
 # Installs all packages needed for tmi in a virtual environment.
 # Installs the hooks for checking formatting.
-install:
-  - poetry install --with test
-  - pre-commit install-hooks
+# install:
+#   - poetry install --with test
+#   - pre-commit install-hooks
 
 jobs:
   include:
     # We can change the python build version here to whatever we decide on.
     - stage: "Linting, Typechecking, Formatting"
       name: "Linting, Typechecking, Formatting"
-      script: pre-commit run --all-files
+      install:
+        - pre-commit install-hooks
+      script:
+        - pre-commit run --all-files
     - stage: "Tests"
       name: "Test"
-      script: poetry run pytest
+      install:
+        - poetry install --with test
+      script:
+        - poetry run pytest
     - stage: "Build"
       name: "Build"
+      install:
+        - poetry install
       script: poetry build
 
 after_success:

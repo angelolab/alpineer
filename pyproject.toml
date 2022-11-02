@@ -7,16 +7,14 @@ authors = [
     "Adam Kagel <ackagel@stanford.edu>",
     "Alex Kong <alkong@stanford.edu>",
     "Cami Laura Sowers <csowers@stanford.edu>",
-    "Sricharan Reddy Varra <srivarra@stanford.edu>"
+    "Sricharan Reddy Varra <srivarra@stanford.edu>",
 ]
 license = "Modified Apache 2.0"
 homepage = "https://github.com/angelolab/tmi"
 repository = "https://github.com/angelolab/tmi"
 documentation = "https://tmi.readthedocs.io"
 readme = "README.md"
-packages = [
-    { include = 'tmi', from = 'src' },
-]
+packages = [{ include = 'tmi', from = 'src' }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -25,6 +23,7 @@ natsort = "^8.2.0"
 tifffile = "^2022.10.10"
 matplotlib = "^3.6.1"
 pillow = "~9.1"
+scikit-image = "^0.19.3"
 
 [tool.poetry.group.test]
 optional = true
@@ -46,6 +45,7 @@ optional = true
 black = "^22.10.0"
 isort = "^5.10.1"
 mypy = "^0.982"
+jupyterlab = "^3.5.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -54,18 +54,15 @@ build-backend = "poetry.core.masonry.api"
 ## TYPE CHECKING ##
 
 [tool.mypy]
-python_version="3.8"
-mypy_path = [
-    "$MYPY_CONFIG_FILE_DIR/src",
-    "$MYPY_CONFIG_FILE_DIR/tests"
-]
+python_version = "3.8"
+mypy_path = ["$MYPY_CONFIG_FILE_DIR/src", "$MYPY_CONFIG_FILE_DIR/tests"]
 warn_return_any = true
 warn_unused_configs = true
 warn_unused_ignores = false
 ignore_missing_imports = false
 
 [[tool.mypy.overrides]]
-module = ["matplotlib.pyplot",]
+module = ["matplotlib.pyplot", "skimage.io", "skimage", "tifffile"]
 ignore_missing_imports = true
 
 
@@ -78,7 +75,7 @@ include = '\.pyi?$'
 preview = true
 
 [tool.isort]
-py_version=38
+py_version = 38
 profile = "black"
 line_length = 100
 multi_line_output = 3
@@ -106,12 +103,7 @@ omit = ["**/*test*.py"]
 ## TESTING ##
 
 [tool.pytest.ini_options]
-addopts = [
-    "-vv",
-    "-s",
-    "--cov",
-    "--pycodestyle",
-]
+addopts = ["-vv", "-s", "--cov", "--pycodestyle"]
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::PendingDeprecationWarning",
