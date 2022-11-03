@@ -6,7 +6,7 @@ import skimage.io as io
 
 
 def save_image(
-    fname: Union[str, pathlib.Path], data: np.ndarray, compression_level: int = 8
+    fname: Union[str, pathlib.Path], data: np.ndarray, compression_level: int = 6
 ) -> None:
     """
     A thin wrapper around `skimage.io.imsave()`.
