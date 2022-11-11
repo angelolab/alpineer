@@ -4,9 +4,9 @@ python:
 git:
   depth: false
 
-# Ubuntu 20.04 (Focal) LTS
+# Ubuntu 22.04 (Jammy) LTS
 os: linux
-dist: focal
+dist: jammy
 
 # Set the cache
 cache:

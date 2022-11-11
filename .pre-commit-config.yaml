@@ -26,8 +26,11 @@ repos:
     hooks:
       - id: mypy
         name: Static Type Checking - mypy
-        additional_dependencies: [types-PyYAML]
+        additional_dependencies: [numpy, pytest, xarray]
         stages: [commit, push, manual]
+        args: ["--config-file", "pyproject.toml"]
+        files: '.*\.py[i]?'
+
   - repo: https://github.com/python-poetry/poetry
     rev: 1.2.2
     hooks:
