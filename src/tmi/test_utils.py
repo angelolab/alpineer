@@ -6,9 +6,22 @@ import xarray as xr
 from tmi import image_utils, io_utils, tiff_utils
 
 
-def _make_blank_file(folder, name):
+def _make_blank_file(folder, name) -> None:
     with open(os.path.join(folder, name), "w"):
         pass
+
+
+def _make_small_file(folder: str, name: str) -> None:
+    """Creates small file.  Creating a blank file will cause a stall for 0-size checking
+
+    Args:
+        folder (str):
+            Folder to store file in
+        name (str):
+            Name of small file
+    """
+    with open(os.path.join(folder, name), "w") as f:
+        f.write("a")
 
 
 def gen_fov_chan_names(num_fovs, num_chans, return_imgs=False, use_delimiter=False):
