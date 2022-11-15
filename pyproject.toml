@@ -24,6 +24,8 @@ tifffile = "^2022.10.10"
 matplotlib = "3.4.3"
 pillow = "~9.1"
 scikit-image = "^0.19.3"
+xarray = "^2022.11.0"
+xmltodict = "^0.13.0"
 
 [tool.poetry.group.test]
 optional = true
@@ -55,14 +57,14 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
 python_version = "3.8"
-mypy_path = ["$MYPY_CONFIG_FILE_DIR/src", "$MYPY_CONFIG_FILE_DIR/tests"]
+mypy_path = "$MYPY_CONFIG_FILE_DIR/src:$MYPY_CONFIG_FILE_DIR/tests"
 warn_return_any = true
 warn_unused_configs = true
 warn_unused_ignores = false
 ignore_missing_imports = false
 
 [[tool.mypy.overrides]]
-module = ["matplotlib.pyplot", "skimage.io", "skimage", "tifffile"]
+module = ["matplotlib","matplotlib.pyplot", "skimage.io", "skimage", "tifffile", "pandas", "xmltodict", "natsort"]
 ignore_missing_imports = true
 
 
