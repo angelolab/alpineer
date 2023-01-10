@@ -2,6 +2,7 @@ import os
 import pathlib
 import warnings
 
+from tmi import misc_utils
 from tmi.settings import EXTENSION_TYPES
 
 
@@ -18,6 +19,9 @@ def validate_paths(paths):
         ValueError:
             Raised if any directory is out of scope or non-existent
     """
+
+    # if given a single path, convert to list
+    paths = misc_utils.make_iterable(paths, ignore_str=True)
 
     # if given a single path, convert to list
     if not isinstance(paths, list):
