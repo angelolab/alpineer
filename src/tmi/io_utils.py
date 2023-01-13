@@ -14,8 +14,6 @@ def validate_paths(paths):
     Args:
         paths (str or list):
             paths to verify.
-        data_prefix (bool):
-            if True, checks that directory starts with /data, necessary when inside the docker
 
     Raises:
         ValueError:
