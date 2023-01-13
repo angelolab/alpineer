@@ -1,6 +1,8 @@
+import itertools
 import os
 import pathlib
 import warnings
+from typing import List
 
 from tmi import misc_utils
 from tmi.settings import EXTENSION_TYPES
@@ -110,10 +112,11 @@ def remove_file_extensions(files):
     # remove the file extension
     names = [os.path.splitext(name) for name in files]
     names_corrected = []
+    extension_types: List[str] = list(itertools.chain(*EXTENSION_TYPES.values()))
     for name in names:
         # We want everything after the "." for the extension
         ext = name[-1][1:]
-        if (ext in EXTENSION_TYPES) or (len(ext) == 0):
+        if (ext in extension_types) or (len(ext) == 0):
             # If it is one of the extension types, only keep the filename.
             # Or there is no extension and the names are similar to ["fov1", "fov2", "fov3", ...]
             names_corrected.append(name[:-1][0])
