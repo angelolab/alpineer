@@ -2,7 +2,7 @@ import os
 import pathlib
 import shutil
 import tempfile
-from typing import Iterator, List, OrderedDict, Tuple, Union
+from typing import Any, Iterator, List, OrderedDict, Tuple
 
 import numpy as np
 import pytest
@@ -722,12 +722,14 @@ class TestOMEConversion:
             np.testing.assert_equal(actual_data, desired_data)
 
     def _get_ome_metadata(self, ome_tiff: TiffFile) -> Tuple[str, List[str]]:
-        ome_xml_metadata = xmltodict.parse(ome_tiff.ome_metadata)
-        image_name: str = ome_xml_metadata["OME"]["Image"]["@Name"]
-        channel_metadata = ome_xml_metadata["OME"]["Image"]["Pixels"]["Channel"]
+        ome_xml_metadata: OrderedDict[str, Any] = xmltodict.parse(ome_tiff.ome_metadata)
+        image_name = ome_xml_metadata["OME"]["Image"]["@Name"]
+        channel_metadata: OrderedDict = ome_xml_metadata["OME"]["Image"]["Pixels"]["Channel"]
 
-        if isinstance(channel_metadata, dict):
-            channel_metadata = [channel_metadata]
-        channels: List[str] = [c["@Name"] for c in channel_metadata]
+        channel_metadata_list: List[OrderedDict[str, Any]] = (
+            [channel_metadata] if isinstance(channel_metadata, dict) else channel_metadata
+        )
+
+        channels: List[str] = [c["@Name"] for c in channel_metadata_list]
 
         return (image_name, channels)

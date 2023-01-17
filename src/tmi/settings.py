@@ -1,17 +1,7 @@
-from typing import List
+from typing import Dict, List
 
-EXTENSION_TYPES: List[str] = [
-    "tiff",
-    "tif",
-    "png",
-    "jpg",
-    "jpeg",
-    "tar",
-    "gz",
-    "csv",
-    "feather",
-    "bin",
-    "json",
-    "ome.tiff",
-    "zip",
-]
+EXTENSION_TYPES: Dict[str, List[str]] = {
+    "IMAGE": ["tiff", "tif", "png", "jpg", "jpeg", "ome.tiff"],
+    "ARCHIVE": ["tar", "gz", "zip"],
+    "DATA": ["csv", "feather", "bin", "json"],
+}
