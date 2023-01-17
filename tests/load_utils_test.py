@@ -726,8 +726,10 @@ class TestOMEConversion:
         image_name = ome_xml_metadata["OME"]["Image"]["@Name"]
         channel_metadata: OrderedDict = ome_xml_metadata["OME"]["Image"]["Pixels"]["Channel"]
 
-        if isinstance(channel_metadata, dict):
-            channel_metadata_list: List[OrderedDict[str, Any]] = [channel_metadata]
+        channel_metadata_list: List[OrderedDict[str, Any]] = (
+            [channel_metadata] if isinstance(channel_metadata, dict) else channel_metadata
+        )
+
         channels: List[str] = [c["@Name"] for c in channel_metadata_list]
 
         return (image_name, channels)
