@@ -19,11 +19,11 @@ packages = [{ include = 'tmi', from = 'src' }]
 [tool.poetry.dependencies]
 python = "^3.8"
 numpy = "1.*"
-natsort = "^8.0"
+natsort = "^8"
 tifffile = "*"
 matplotlib = "^3"
 pillow = "~9.1"
-scikit-image = "^0.19"
+scikit-image = "0.*"
 xarray = "*"
 xmltodict = "^0.13.0"
 charset-normalizer = "^2.1.1"
