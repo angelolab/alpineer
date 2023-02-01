@@ -51,7 +51,7 @@ mypy = "^0.982"
 jupyterlab = "^3.5.0"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core", "setuptools"]
 build-backend = "setuptools.build_meta"
 
 ## TYPE CHECKING ##
