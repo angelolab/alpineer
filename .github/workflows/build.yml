@@ -46,7 +46,7 @@ jobs:
           installer-parallel: true
 
       - name: Linting, Typechecking and Formatting
-        uses: pre-commit/action@v3
+        uses: pre-commit/action@v3.0.0
 
       - name: Load Cached venv
         id: cached-poetry-dependencies
