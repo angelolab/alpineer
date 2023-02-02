@@ -535,7 +535,7 @@ def fov_to_ome(
         img_sub_folder (Union[str, pathlib.Path], optional):
             Optional name of image sub-folder within each FOV / Single Channel TIFF folder.
             Defaults to None.
-        fovs (List[str]):
+        fovs (List[str], optional):
             A list of FOVs to gather and save as an OME-TIFF file. Defaults to None
             (Converts all FOVs in `data_dir` to OME-TIFFs).
         channels (List[str], optional):
