@@ -117,7 +117,7 @@ omit = ["**/*test*.py"]
 ## TESTING ##
 
 [tool.pytest.ini_options]
-addopts = ["-vv", "-s", "--cov", "--pycodestyle", "--cov-report lcov"]
+addopts = ["-vv", "-s", "--cov", "--pycodestyle", "--cov-report=lcov"]
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::PendingDeprecationWarning",
