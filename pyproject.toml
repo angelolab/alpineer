@@ -103,7 +103,6 @@ branch = true
 source = ["tmi"]
 
 [tool.coverage.report]
-lcov = true
 exclude_lines = [
     "except ImportError",
     "raise AssertionError",
