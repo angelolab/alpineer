@@ -2,7 +2,7 @@ import os
 import pathlib
 import re
 import warnings
-from typing import List, OrderedDict, Union
+from typing import List, Optional, OrderedDict, Union
 
 import numpy as np
 import skimage.io as io
@@ -519,9 +519,9 @@ def load_tiled_img_data(
 def fov_to_ome(
     data_dir: Union[str, pathlib.Path],
     ome_save_dir: Union[str, pathlib.Path],
-    img_sub_folder: Union[str, pathlib.Path] = None,
-    fovs: List[str] = None,
-    channels: List[str] = None,
+    img_sub_folder: Optional[Union[str, pathlib.Path]] = None,
+    fovs: Optional[List[str]] = None,
+    channels: Optional[List[str]] = None,
 ) -> None:
     """
     Converts a folder of FOVs into an OME-TIFF per FOV. This can be filtered out by

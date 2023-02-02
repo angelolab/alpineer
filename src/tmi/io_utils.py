@@ -127,7 +127,7 @@ def remove_file_extensions(files):
     if len(bad_names) > 0:
         warnings.warn(
             'These files still have "." in them after file extension removal: '
-            f"{','.join(bad_names)}, "
+            f'{",".join(bad_names)}, '
             "please double check that these are the correct names"
         )
 
