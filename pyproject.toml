@@ -103,11 +103,13 @@ branch = true
 source = ["tmi"]
 
 [tool.coverage.report]
+lcov = true
 exclude_lines = [
     "except ImportError",
     "raise AssertionError",
     "raise NotImplementedError",
 ]
+
 show_missing = true
 ignore_errors = false
 fail_under = 45
@@ -116,7 +118,7 @@ omit = ["**/*test*.py"]
 ## TESTING ##
 
 [tool.pytest.ini_options]
-addopts = ["-vv", "-s", "--cov", "--pycodestyle"]
+addopts = ["-vv", "-s", "--cov", "--pycodestyle", "--cov-report lcov"]
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::PendingDeprecationWarning",
