@@ -14,7 +14,7 @@ homepage = "https://github.com/angelolab/tmi"
 repository = "https://github.com/angelolab/tmi"
 documentation = "https://tmi.readthedocs.io"
 readme = "README.md"
-packages = [{ include = 'tmi', from = 'src' }]
+packages = [{ include = 'alpineer', from = 'src' }]
 
 [build-system]
 requires = ["poetry-core"]
@@ -100,7 +100,7 @@ source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
-source = ["tmi"]
+source = ["alpineer"]
 
 [tool.coverage.report]
 exclude_lines = [
