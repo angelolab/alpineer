@@ -10,8 +10,8 @@ import xarray as xr
 import xmltodict
 from tifffile import TiffFile, TiffPageSeries, TiffWriter
 
-from tmi import image_utils, io_utils, misc_utils, tiff_utils
-from tmi.settings import EXTENSION_TYPES
+from alpineer import image_utils, io_utils, misc_utils, tiff_utils
+from alpineer.settings import EXTENSION_TYPES
 
 
 def load_imgs_from_mibitiff(data_dir, mibitiff_files=None, channels=None, delimiter=None):

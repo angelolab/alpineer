@@ -4,8 +4,8 @@ import pathlib
 import warnings
 from typing import List
 
-from tmi import misc_utils
-from tmi.settings import EXTENSION_TYPES
+from alpineer import misc_utils
+from alpineer.settings import EXTENSION_TYPES
 
 
 def validate_paths(paths):

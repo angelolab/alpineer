@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tmi"
+name = "alpineer"
 version = "0.1.3"
 description = "Toolbox for Multiplexed Imaging. Contains scripts and little tools which are used throughout ark-analysis, mibi-bin-tools, and toffy."
 authors = [

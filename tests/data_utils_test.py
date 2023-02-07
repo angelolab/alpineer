@@ -1,4 +1,4 @@
-from tmi import data_utils, test_utils
+from alpineer import data_utils, test_utils
 
 
 def test_stitch_images():

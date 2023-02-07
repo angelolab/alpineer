@@ -11,7 +11,7 @@ import xmltodict
 from skimage import io
 from tifffile import TiffFile, TiffWriter
 
-from tmi import load_utils, test_utils
+from alpineer import load_utils, test_utils
 
 
 def test_load_imgs_from_mibitiff():

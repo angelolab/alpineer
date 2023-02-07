@@ -1,8 +1,8 @@
-# tmi
+# Alpineer
 
 Toolbox for Multiplexed Imaging. Contains scripts and little tools which are used throughout [ark-analysis](https://github.com/angelolab/ark-analysis), [mibi-bin-tools](https://github.com/angelolab/mibi-bin-tools), and [toffy](https://github.com/angelolab/toffy)
 
-- [tmi](#tmi)
+- [alpineer](#alpineer)
   - [Requirements](#requirements)
   - [Setup](#setup)
   - [Development Notes](#development-notes)
@@ -29,11 +29,11 @@ Toolbox for Multiplexed Imaging. Contains scripts and little tools which are use
 
 ## Setup
 
-1. Clone the repo: `git clone https://github.com/angelolab/tmi.git`
-2. `cd` into `tmi`.
+1. Clone the repo: `git clone https://github.com/angelolab/alpineer.git`
+2. `cd` into `alpineer`.
 3. Install the pre-commit hooks with `pre-commit install`
-4. Set up `python-poetry` for `tmi`
-   1. Run `poetry install` to install `tmi` into your virtual environment. (Poetry utilizes [Python's Virtual Environments](https://docs.python.org/3/tutorial/venv.html))
+4. Set up `python-poetry` for `alpineer`
+   1. Run `poetry install` to install `alpineer` into your virtual environment. (Poetry utilizes [Python's Virtual Environments](https://docs.python.org/3/tutorial/venv.html))
    2. Run `poetry install --with test`: Installs all the [dependencies needed for tests](pyproject.toml) (labeled under `tool.poetry.group.test.dependencies`)
    3. Run `poetry install --with dev`: Installs all the [dependencies needed for development](pyproject.coml) (labeled under `tool.poetry.group.dev.dependencies`)
    4. You may combine these as well with `poetry install --with dev,test`. Installing the base dependencies and the two optional groups.
@@ -78,10 +78,10 @@ Toolbox for Multiplexed Imaging. Contains scripts and little tools which are use
 
 ## Updating
 
-* In order to update `tmi`'s dependencies we can run:
+* In order to update `alpineer`'s dependencies we can run:
   *  `poetry update`: for all dependencies
   *  `poetry update <package>`: where `<package>` can be something like `numpy`.
 * To update Poetry itself, run `poetry self update`.
 ## Questions?
 
-Feel free to open an issue on our [GitHub page](https://github.com/angelolab/tmi/issues)
+Feel free to open an issue on our [GitHub page](https://github.com/angelolab/alpineer/issues)

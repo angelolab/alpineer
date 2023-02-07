@@ -5,9 +5,8 @@ from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
-import xarray as xr
 
-from tmi import io_utils
+from alpineer import io_utils
 
 
 def save_figure(save_dir, save_file, dpi=None):

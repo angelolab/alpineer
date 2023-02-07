@@ -5,7 +5,7 @@ from fractions import Fraction
 import numpy as np
 from tifffile import TiffFile, TiffWriter
 
-from tmi import misc_utils
+from alpineer import misc_utils
 
 
 def read_mibitiff(file, channels=None):
