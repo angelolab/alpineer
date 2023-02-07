@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "alpineer"
-version = "0.1.3"
+version = "0.1.4"
 description = "Toolbox for Multiplexed Imaging. Contains scripts and little tools which are used throughout ark-analysis, mibi-bin-tools, and toffy."
 authors = [
     "Noah Frey Greenwald <nfgreen@stanford.edu>",
