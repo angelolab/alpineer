@@ -1,10 +1,10 @@
 name: Build Wheels and upload to PyPI
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
-      - releases/**
+      - "releases/**"
+    types: ["synchronize"]
   release:
     types: [published]
   workflow_dispatch:
