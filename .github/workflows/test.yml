@@ -70,4 +70,4 @@ jobs:
         with:
           name: coverage
           path: |
-            coverage.lcov
+            coverage/*
