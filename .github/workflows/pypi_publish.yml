@@ -25,7 +25,6 @@ jobs:
   test_pypi_publish:
     # Test PyPI publish, requires wheels and source dist (sdist)
     name: Publish ${{ github.repository }} to TestPyPI
-    if: (github.event_name == 'release' && github.event.action == 'published')  || (github.event.action == 'workflow_dispatch')
     needs: [build_wheels_sdist]
     runs-on: ubuntu-latest
     steps:
