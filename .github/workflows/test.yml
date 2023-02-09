@@ -64,7 +64,7 @@ jobs:
         with:
           name: distributions
           path: dist/*
-      
+
       - name: Coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
