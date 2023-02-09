@@ -1,6 +1,11 @@
 name: Build Wheels and upload to PyPI
 
 on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [labeled, opened, synchronize, reopened]
   release:
     types: [published]
 
@@ -13,13 +18,14 @@ permissions:
 
 jobs:
   build_wheels_sdist:
+    name: Build, Lint and Test
     uses: ./.github/workflows/test.yml
     secrets: inherit
 
   test_pypi_publish:
     # Test PyPI publish, requires wheels and source dist (sdist)
     name: Publish ${{ github.repository }} to TestPyPI
-    if: github.event_name == 'release' && github.event.action == 'published'
+    # if: github.event_name == 'release' && github.event.action == 'published'
     needs: [build_wheels_sdist]
     runs-on: ubuntu-latest
     steps:
