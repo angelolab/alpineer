@@ -64,3 +64,11 @@ jobs:
         with:
           name: distributions
           path: dist/*
+      
+      - name: Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          name: Coverage - ${{ github.repository }}
+          fail_ci_if_error: true
+          files: coverage.lcov
+          verbose: true

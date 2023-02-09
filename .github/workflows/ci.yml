@@ -20,12 +20,3 @@ jobs:
     name: Build, Lint and Test
     uses: ./.github/workflows/test.yml
     secrets: inherit
-
-
-  coverage_upload:
-    name: Upload to Coveralls
-    needs: [build_lint_test]
-    uses: coverallsapp/github-action@master
-    with:
-      path-to-lcov: coverage.lcov
-      github-token: ${{ secrets.GITHUB_TOKEN }}
