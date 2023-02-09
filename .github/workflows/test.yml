@@ -68,6 +68,6 @@ jobs:
       - name: Archive Coverage
         uses: actions/upload-artifact@v3
         with:
-          name: coverage.lcov
+          name: coverage
           path: |
-            coverage/*
+            coverage.lcov
