@@ -14,19 +14,11 @@ concurrency:
 permissions:
   contents: read # to fetch code (actions/checkout)
 
-
 jobs:
   build_lint_test:
+    permissions:
+      contents: read
+      pull-requests: write
     name: Build, Lint and Test
-    runs-on: ubuntu-latest
-    # secrets: inherit
-    steps:
-      - name: Build, Lint and Test
-        uses: ./.github/workflows/test.yml
-
-      - name: Coverage to Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage.lcov
-
+    secrets: inherit
+    uses: ./.github/workflows/test.yml
