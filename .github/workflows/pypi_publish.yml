@@ -1,6 +1,10 @@
 name: Build Wheels and upload to PyPI
 
 on:
+  push:
+    branches:
+      - main
+      - releases/**
   release:
     types: [published]
   workflow_dispatch:
