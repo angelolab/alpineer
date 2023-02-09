@@ -22,3 +22,20 @@ jobs:
     name: Build, Lint and Test
     secrets: inherit
     uses: ./.github/workflows/test.yml
+
+
+  upload_coverage:
+    needs: [build_lint_test]
+    name: Upload Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Coverage Artifact
+        uses: actions/download-artifact@v3
+        with:
+          path: coverage.lcov
+
+      - name: Upload Coverage to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.lcov
