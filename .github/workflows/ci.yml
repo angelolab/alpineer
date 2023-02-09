@@ -18,5 +18,15 @@ permissions:
 jobs:
   build_lint_test:
     name: Build, Lint and Test
-    uses: ./.github/workflows/test.yml
-    secrets: inherit
+    runs-on: ubuntu-latest
+    # secrets: inherit
+    steps:
+      - name: Build, Lint and Test
+        uses: ./.github/workflows/test.yml
+
+      - name: Coverage to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.lcov
+
