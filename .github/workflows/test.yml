@@ -2,7 +2,6 @@ name: Test
 
 on:
   workflow_call:
-  pull_request:
 
 permissions:
   contents: read # to fetch code (actions/checkout)
@@ -72,9 +71,3 @@ jobs:
           name: coverage
           path: |
             coverage.lcov
-
-      - name: Upload Coverage to Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage.lcov
