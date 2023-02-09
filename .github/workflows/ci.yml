@@ -1,6 +1,7 @@
 name: Build, Lint and Test
 
 on:
+  workflow_dispatch:
   push:
     branches: ["main"]
   pull_request:
@@ -15,6 +16,6 @@ permissions:
 
 
 jobs:
-  test:
+  build_lint_test:
     uses: ./.github/workflows/test.yml
     secrets: inherit

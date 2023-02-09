@@ -3,15 +3,11 @@ name: Test
 on:
   workflow_call:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
-  test:
+  build_lint_test:
     name: Build and Test ${{ github.repository }} Pure Python Wheels
     runs-on: ubuntu-latest
     strategy:
@@ -40,7 +36,6 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
           cache: "poetry"
-
 
       - name: Linting, Typechecking and Formatting
         uses: pre-commit/action@v3.0.0
