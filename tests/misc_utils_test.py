@@ -4,7 +4,7 @@ import tempfile
 import numpy as np
 import pytest
 
-from tmi import misc_utils
+from alpineer import misc_utils
 
 
 def test_verify_in_list():

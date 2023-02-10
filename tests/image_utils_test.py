@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 import skimage.io as io
 
-from tmi import image_utils
+from alpineer import image_utils
 
 
 @pytest.fixture(scope="session")

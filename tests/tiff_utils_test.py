@@ -4,7 +4,7 @@ import tempfile
 import numpy as np
 import pytest
 
-from tmi import test_utils, tiff_utils
+from alpineer import test_utils, tiff_utils
 
 
 # test read_mibitiff on static tiff file

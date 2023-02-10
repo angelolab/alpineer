@@ -4,7 +4,7 @@ import tempfile
 
 import pytest
 
-from tmi import io_utils
+from alpineer import io_utils
 
 
 def test_validate_paths():

@@ -3,7 +3,7 @@ import os
 import numpy as np
 import xarray as xr
 
-from tmi import image_utils, io_utils, tiff_utils
+from alpineer import image_utils, io_utils, tiff_utils
 
 
 def _make_blank_file(folder, name) -> None:

@@ -4,8 +4,8 @@ import pathlib
 import warnings
 from typing import List
 
-from tmi import misc_utils
-from tmi.settings import EXTENSION_TYPES
+from alpineer import misc_utils
+from alpineer.settings import EXTENSION_TYPES
 
 
 def validate_paths(paths):
@@ -127,7 +127,7 @@ def remove_file_extensions(files):
     if len(bad_names) > 0:
         warnings.warn(
             'These files still have "." in them after file extension removal: '
-            f"{','.join(bad_names)}, "
+            f'{",".join(bad_names)}, '
             "please double check that these are the correct names"
         )
 
