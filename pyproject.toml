@@ -23,17 +23,8 @@ build-backend = "poetry_dynamic_versioning.backend"
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"
-format-jinja = """
-    {%- if distance == 0 -%}
-        {{ serialize_pep440(base, stage, revision) }}
-    {%- elif revision is not none -%}
-        {{ serialize_pep440(base, stage, revision + 1, dev=distance, metadata=[commit]) }}
-    {%- else -%}
-        {{ serialize_pep440(bump_version(base), stage, revision, dev=distance, metadata=[commit]) }}
-    {%- endif -%}
-"""
-bump = false
-style = "pep440"
+bump = true
+style = "semver"
 
 [tool.poetry.dependencies]
 python = "^3.8"
