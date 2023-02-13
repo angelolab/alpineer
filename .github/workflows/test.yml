@@ -37,6 +37,10 @@ jobs:
           python-version: ${{matrix.python-version}}
           cache: "poetry"
 
+      - name: Set up Poetry Dynamic Versioning
+        run: |
+          poetry self add "poetry-dynamic-versioning[plugin]"
+
       - name: Linting, Typechecking and Formatting
         uses: pre-commit/action@v3.0.0
 

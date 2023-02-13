@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - "releases/**"
-    types: ["synchronize"]
+    types: [labeled, opened, synchronize, reopened]
   release:
     types: [published]
   workflow_dispatch:
