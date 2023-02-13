@@ -25,7 +25,7 @@ enable = true
 vcs = "git"
 bump = true
 style = "pep440"
-# format = "v{base}+{distance}.{commit}"
+metadata = false
 
 [tool.poetry.dependencies]
 python = "^3.8"
