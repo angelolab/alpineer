@@ -24,7 +24,8 @@ build-backend = "poetry_dynamic_versioning.backend"
 enable = true
 vcs = "git"
 bump = true
-style = "semver"
+style = "pep440"
+# format = "v{base}+{distance}.{commit}"
 
 [tool.poetry.dependencies]
 python = "^3.8"
