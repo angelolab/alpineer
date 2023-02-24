@@ -379,7 +379,7 @@ def get_tiled_fov_names(fov_list, return_dims=False):
 
     Args:
         fov_list (list):
-            list of fov names
+            list of fov names with are suffixed with RnCm, where n and m are any integer.
         return_dims (bool):
             whether to also return row and col dimensions
     Returns:
@@ -390,12 +390,14 @@ def get_tiled_fov_names(fov_list, return_dims=False):
 
     # check for run name prefix
     prefix, fov_names = check_fov_name_prefix(fov_list)
+    search_term: re.Pattern = re.compile(r"(R\+?\d+)(C\+?\d+)")
 
     # get tiled image dimensions
     for fov in fov_names:
-        fov_digits = re.findall(r"\d+", fov)
-        rows.append(int(fov_digits[0]))
-        cols.append(int(fov_digits[1]))
+        R,C = re.search(search_term, fov).group(1,2)
+        rows.append(int(R[1:]))
+        cols.append(int(C[1:]))
+
     row_num, col_num = max(rows), max(cols)
 
     # fill list of expected fov names
