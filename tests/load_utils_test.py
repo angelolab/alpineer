@@ -3,8 +3,8 @@ import pathlib
 import shutil
 import tempfile
 from typing import Any, Iterator, List, OrderedDict, Tuple
-import natsort as ns
 
+import natsort as ns
 import numpy as np
 import pytest
 import xarray as xr
@@ -407,13 +407,13 @@ def test_get_tiled_fov_names():
     expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
     assert expected_fovs == ["Run_10_R1C1", "R1C2", "Run_20_R1C3"]
     assert (rows, cols) == (1, 3)
-    
+
     # Check that indicies larger than 9 are handled appropriately.
     fov_names = ["R1C1", "R10C1", "R2C12"]
     expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
-    
-    assert ns.natsorted([f"R{n}C{m}" for n in range(1,11) for m in range(1,13)]) == expected_fovs
-    
+
+    assert ns.natsorted([f"R{n}C{m}" for n in range(1, 11) for m in range(1, 13)]) == expected_fovs
+
     assert (rows, cols) == (10, 12)
 
 

@@ -394,7 +394,7 @@ def get_tiled_fov_names(fov_list, return_dims=False):
 
     # get tiled image dimensions
     for fov in fov_names:
-        R,C = re.search(search_term, fov).group(1,2)
+        R, C = re.search(search_term, fov).group(1, 2)
         rows.append(int(R[1:]))
         cols.append(int(C[1:]))
 
