@@ -4,6 +4,7 @@ import shutil
 import tempfile
 from typing import Any, Iterator, List, OrderedDict, Tuple
 
+import natsort as ns
 import numpy as np
 import pytest
 import xarray as xr
@@ -370,7 +371,7 @@ def test_get_tiled_fov_names():
     # check no missing fovs, should return a list with all fovs for a 3x4 tiling
     fov_names = ["R1C1", "R1C2", "R2C1", "R2C2"]
 
-    expected_fovs = load_utils.get_tiled_fov_names(fov_names)
+    expected_fovs = load_utils.get_tiled_fov_names(fov_names, return_dims=False)
     assert expected_fovs == ["R1C1", "R1C2", "R2C1", "R2C2"]
 
     # check no missing fovs and run name attached, should return a list for 1x3 tiling
@@ -381,7 +382,7 @@ def test_get_tiled_fov_names():
     assert (rows, cols) == (1, 3)
 
     # check missing fovs, should return a list with all fovs for a 3x4 tiling
-    fov_names = ["R1C1", "R1C2", "R2C1", "R2C4", "RC3C1"]
+    fov_names = ["R1C1", "R1C2", "R2C1", "R2C4", "R3C1"]
 
     expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
     assert expected_fovs == [
@@ -406,6 +407,14 @@ def test_get_tiled_fov_names():
     expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
     assert expected_fovs == ["Run_10_R1C1", "R1C2", "Run_20_R1C3"]
     assert (rows, cols) == (1, 3)
+
+    # Check that indicies larger than 9 are handled appropriately.
+    fov_names = ["R1C1", "R10C1", "R2C12"]
+    expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+
+    assert ns.natsorted([f"R{n}C{m}" for n in range(1, 11) for m in range(1, 13)]) == expected_fovs
+
+    assert (rows, cols) == (10, 12)
 
 
 @pytest.mark.parametrize("single_dir, img_sub_folder", [(False, "TIFs"), (True, "")])
