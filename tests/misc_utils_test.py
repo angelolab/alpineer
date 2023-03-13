@@ -1,6 +1,3 @@
-import os
-import tempfile
-
 import numpy as np
 import pytest
 
@@ -29,12 +26,25 @@ def test_verify_in_list():
         misc_utils.verify_in_list(warn=True, one=["hello", "world"], two=["hello", "goodbye"])
 
     # test unwrapped string
-    misc_utils.verify_in_list(one="hello", two=["hello", "world"])
+    assert misc_utils.verify_in_list(one="hello", two=["hello", "world"]) == True
 
     # test numpy array allowance
-    misc_utils.verify_in_list(
-        one=np.array(["hello", "world"]), two=np.array(["hello", "world", "!"])
+    assert (
+        misc_utils.verify_in_list(
+            one=np.array(["hello", "world"]), two=np.array(["hello", "world", "!"])
+        )
+        == True
     )
+
+    # Test `None` passed for combinations of arguments
+    assert misc_utils.verify_in_list(one=[1], two=None) == True
+    assert misc_utils.verify_in_list(one=None, two=[2]) == True
+    assert misc_utils.verify_in_list(one=None, two=None) == True
+
+    # Test `[]`, an empty list for combinations of arguments
+    assert misc_utils.verify_in_list(one=[1], two=[]) == True
+    assert misc_utils.verify_in_list(one=[], two=[2]) == True
+    assert misc_utils.verify_in_list(one=[], two=[]) == True
 
 
 def test_verify_same_elements():
@@ -73,6 +83,16 @@ def test_verify_same_elements():
         misc_utils.verify_same_elements(
             enforce_order=True, warn=True, one=["elem1", "elem2"], two=["elem2", "elem1"]
         )
+
+    # Test `None` passed for combinations of arguments
+    assert misc_utils.verify_same_elements(one=[None], two=[1]) == True
+    assert misc_utils.verify_same_elements(one=[1], two=[None]) == True
+    assert misc_utils.verify_same_elements(one=[None], two=[None]) == True
+
+    # Test `[]`, an empty list for combinations of arguments
+    assert misc_utils.verify_same_elements(one=[1], two=[]) == False
+    assert misc_utils.verify_same_elements(one=[], two=[1]) == False
+    assert misc_utils.verify_same_elements(one=[], two=[]) == True
 
 
 def test_create_invalid_data_str():

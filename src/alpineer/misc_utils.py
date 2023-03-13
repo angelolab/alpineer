@@ -78,7 +78,7 @@ def make_iterable(a: Any, ignore_str: bool = True):
     )
 
 
-def verify_in_list(warn=False, **kwargs):
+def verify_in_list(warn: bool = False, **kwargs) -> bool:
     """Verify at least whether the values in the first list exist in the second
 
     Args:
@@ -103,9 +103,13 @@ def verify_in_list(warn=False, **kwargs):
     test_list = list(make_iterable(test_list))
     good_values = list(make_iterable(good_values))
 
-    for v in [test_list, good_values]:
-        if len(v) == 0:
-            raise ValueError("List arguments cannot be empty")
+    # Check if either list inputs are `None` (or both)
+    if any(v == [None] for v in [test_list, good_values]):
+        return True
+
+    # Check if either list is a length of 0
+    if any(len(v) is 0 for v in [test_list, good_values]):
+        return True
 
     if not np.isin(test_list, good_values).all():
         test_list_name, good_values_name = kwargs.keys()
@@ -133,9 +137,10 @@ def verify_in_list(warn=False, **kwargs):
             warnings.warn(err_str)
         else:
             raise ValueError(err_str)
+    return True
 
 
-def verify_same_elements(enforce_order=False, warn=False, **kwargs):
+def verify_same_elements(enforce_order=False, warn=False, **kwargs) -> bool:
     """Verify if two lists contain the same elements regardless of count
 
     Args:
@@ -161,6 +166,16 @@ def verify_same_elements(enforce_order=False, warn=False, **kwargs):
         list_two_cast = list(list_two)
     except TypeError:
         raise ValueError("Both arguments provided must be lists or list types")
+
+    # Check if either list inputs are `None` (or both)
+    if any(v == [None] for v in [list_one_cast, list_two_cast]):
+        return True
+    # If both lists are empty
+    if all(len(v) is 0 for v in [list_one_cast, list_two_cast]):
+        return True
+    # If either list one, or two have a length of 0, but not both.
+    if (len(list_one_cast) == 0) is not (len(list_two_cast) == 0):
+        return False
 
     list_one_name, list_two_name = kwargs.keys()
     list_one_name = list_one_name.replace("_", " ")
@@ -229,3 +244,4 @@ def verify_same_elements(enforce_order=False, warn=False, **kwargs):
                     first_bad_index,
                 )
             )
+    return True
