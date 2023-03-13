@@ -26,25 +26,24 @@ def test_verify_in_list():
         misc_utils.verify_in_list(warn=True, one=["hello", "world"], two=["hello", "goodbye"])
 
     # test unwrapped string
-    assert misc_utils.verify_in_list(one="hello", two=["hello", "world"]) == True
+    assert misc_utils.verify_in_list(one="hello", two=["hello", "world"])
 
     # test numpy array allowance
-    assert (
-        misc_utils.verify_in_list(
-            one=np.array(["hello", "world"]), two=np.array(["hello", "world", "!"])
-        )
-        == True
+    assert misc_utils.verify_in_list(
+        one=np.array(["hello", "world"]), two=np.array(["hello", "world", "!"])
     )
 
     # Test `None` passed for combinations of arguments
-    assert misc_utils.verify_in_list(one=[1], two=None) == True
-    assert misc_utils.verify_in_list(one=None, two=[2]) == True
-    assert misc_utils.verify_in_list(one=None, two=None) == True
+    assert misc_utils.verify_in_list(one=[1], two=None)
+    assert misc_utils.verify_in_list(one=None, two=[2])
+    assert misc_utils.verify_in_list(one=None, two=None)
 
     # Test `[]`, an empty list for combinations of arguments
-    assert misc_utils.verify_in_list(one=[1], two=[]) == True
-    assert misc_utils.verify_in_list(one=[], two=[2]) == True
-    assert misc_utils.verify_in_list(one=[], two=[]) == True
+    with pytest.raises(ValueError):
+        misc_utils.verify_in_list(one=[1], two=[])
+
+    assert misc_utils.verify_in_list(one=[], two=[2])
+    assert misc_utils.verify_in_list(one=[], two=[])
 
 
 def test_verify_same_elements():
@@ -85,14 +84,14 @@ def test_verify_same_elements():
         )
 
     # Test `None` passed for combinations of arguments
-    assert misc_utils.verify_same_elements(one=[None], two=[1]) == True
-    assert misc_utils.verify_same_elements(one=[1], two=[None]) == True
-    assert misc_utils.verify_same_elements(one=[None], two=[None]) == True
+    assert misc_utils.verify_same_elements(one=[None], two=[1])
+    assert misc_utils.verify_same_elements(one=[1], two=[None])
+    assert misc_utils.verify_same_elements(one=[None], two=[None])
 
     # Test `[]`, an empty list for combinations of arguments
-    assert misc_utils.verify_same_elements(one=[1], two=[]) == False
-    assert misc_utils.verify_same_elements(one=[], two=[1]) == False
-    assert misc_utils.verify_same_elements(one=[], two=[]) == True
+    assert not misc_utils.verify_same_elements(one=[1], two=[])
+    assert not misc_utils.verify_same_elements(one=[], two=[1])
+    assert misc_utils.verify_same_elements(one=[], two=[])
 
 
 def test_create_invalid_data_str():
