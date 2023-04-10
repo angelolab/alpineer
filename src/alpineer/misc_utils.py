@@ -78,7 +78,7 @@ def make_iterable(a: Any, ignore_str: bool = True):
     )
 
 
-def verify_in_list(warn=False, **kwargs):
+def verify_in_list(warn: bool = False, **kwargs) -> bool:
     """Verify at least whether the values in the first list exist in the second
 
     Args:
@@ -99,32 +99,35 @@ def verify_in_list(warn=False, **kwargs):
     if len(kwargs) != 2:
         raise ValueError("You must provide 2 arguments to verify_in_list")
 
-    test_list, good_values = kwargs.values()
-    test_list = list(make_iterable(test_list))
-    good_values = list(make_iterable(good_values))
+    rhs_name, lhs_name = map(lambda s: s.replace("_", " "), kwargs.keys())
 
-    for v in [test_list, good_values]:
-        if len(v) == 0:
-            raise ValueError("List arguments cannot be empty")
+    lhs_list, rhs_list = map(lambda l: list(make_iterable(l)), kwargs.values())
 
-    if not np.isin(test_list, good_values).all():
-        test_list_name, good_values_name = kwargs.keys()
-        test_list_name = test_list_name.replace("_", " ")
-        good_values_name = good_values_name.replace("_", " ")
+    # Check if either list inputs are `None` (or both)
+    if any(v == [None] for v in (lhs_list, rhs_list)):
+        return True
+    # If the Left Hand List is empty, the Right Hand List will always be contained in it.
+    if len(lhs_list) == 0:
+        return True
+    # If the Right Hand List is empty, the Left Hand List will never be contained in it.
+    # Throw a ValueError
+    if len(rhs_list) == 0:
+        raise ValueError(f"The list {lhs_name} is empty.")
 
-        # Calculate the difference between the `test_list` and the `good_values`
-        difference = [str(val) for val in test_list if val not in good_values]
+    if not np.isin(lhs_list, rhs_list).all():
+        # Calculate the difference between the `lhs_list` and the `rhs_list`
+        difference = [str(val) for val in lhs_list if val not in rhs_list]
 
         # Only printing up to the first 10 invalid values.
         err_str = (
             "Not all values given in list {0:^} were found in list {1:^}.\n "
             "Displaying {2} of {3} invalid value(s) for list {4:^}\n"
         ).format(
-            test_list_name,
-            good_values_name,
+            rhs_name,
+            lhs_name,
             min(len(difference), 10),
             len(difference),
-            test_list_name,
+            rhs_name,
         )
 
         err_str += create_invalid_data_str(difference)
@@ -133,9 +136,10 @@ def verify_in_list(warn=False, **kwargs):
             warnings.warn(err_str)
         else:
             raise ValueError(err_str)
+    return True
 
 
-def verify_same_elements(enforce_order=False, warn=False, **kwargs):
+def verify_same_elements(enforce_order=False, warn=False, **kwargs) -> bool:
     """Verify if two lists contain the same elements regardless of count
 
     Args:
@@ -161,6 +165,16 @@ def verify_same_elements(enforce_order=False, warn=False, **kwargs):
         list_two_cast = list(list_two)
     except TypeError:
         raise ValueError("Both arguments provided must be lists or list types")
+
+    # Check if either list inputs are `None` (or both)
+    if any(v == [None] for v in [list_one_cast, list_two_cast]):
+        return True
+    # If both lists are empty
+    if all(len(v) == 0 for v in [list_one_cast, list_two_cast]):
+        return True
+    # If either list one, or two have a length of 0, but not both.
+    if (len(list_one_cast) == 0) is not (len(list_two_cast) == 0):
+        return False
 
     list_one_name, list_two_name = kwargs.keys()
     list_one_name = list_one_name.replace("_", " ")
@@ -229,3 +243,4 @@ def verify_same_elements(enforce_order=False, warn=False, **kwargs):
                     first_bad_index,
                 )
             )
+    return True
