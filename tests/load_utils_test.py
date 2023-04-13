@@ -368,59 +368,61 @@ def test_check_fov_name_prefix():
 
 
 def test_get_tiled_fov_names():
-    # check no missing fovs, should return a list with all fovs for a 3x4 tiling
+    # SINGLE TILE
+
+    # check no missing fovs and no prefix, should return a list with all fovs for a 2x2 tiling
     fov_names = ["R1C1", "R1C2", "R2C1", "R2C2"]
 
-    expected_fovs = load_utils.get_tiled_fov_names(fov_names, return_dims=False)
+    tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+    prefix, expected_fovs, rows, cols = tiles[0]
+    assert prefix == ""
     assert expected_fovs == ["R1C1", "R1C2", "R2C1", "R2C2"]
+    assert (rows, cols) == (2, 2)
 
     # check no missing fovs and run name attached, should return a list for 1x3 tiling
-    fov_names = ["Run_10_R1C1", "Run_10_R1C2", "Run_20_R1C3"]
+    fov_names = ["Run_10_R1C1", "Run_10_R1C2", "Run_10_R1C3"]
 
-    expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
-    assert expected_fovs == ["Run_10_R1C1", "Run_10_R1C2", "Run_20_R1C3"]
+    tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+    prefix, expected_fovs, rows, cols = tiles[0]
+    assert prefix == "Run_10"
+    assert expected_fovs == ["Run_10_R1C1", "Run_10_R1C2", "Run_10_R1C3"]
     assert (rows, cols) == (1, 3)
-
-    # check non-tiled fov in run is excluded
-    fov_names = ["R1C1", "R1C2", "R2C1", "R2C2", "not_tiled"]
-
-    expected_fovs = load_utils.get_tiled_fov_names(fov_names, return_dims=False)
-    assert expected_fovs == ["R1C1", "R1C2", "R2C1", "R2C2"]
 
     # check missing fovs, should return a list with all fovs for a 3x4 tiling
     fov_names = ["R1C1", "R1C2", "R2C1", "R2C4", "R3C1"]
 
-    expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
-    assert expected_fovs == [
-        "R1C1",
-        "R1C2",
-        "R1C3",
-        "R1C4",
-        "R2C1",
-        "R2C2",
-        "R2C3",
-        "R2C4",
-        "R3C1",
-        "R3C2",
-        "R3C3",
-        "R3C4",
-    ]
+    tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+    prefix, expected_fovs, rows, cols = tiles[0]
+    assert prefix == ""
+    assert expected_fovs == ns.natsorted([f"R{n}C{m}" for n in range(1, 4) for m in range(1, 5)])
     assert (rows, cols) == (3, 4)
-
-    # check missing fovs with run name attached, should return a list with all fovs for 1x3 tiling
-    fov_names = ["Run_10_R1C1", "Run_20_R1C3"]
-
-    expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
-    assert expected_fovs == ["Run_10_R1C1", "R1C2", "Run_20_R1C3"]
-    assert (rows, cols) == (1, 3)
 
     # Check that indicies larger than 9 are handled appropriately.
     fov_names = ["R1C1", "R10C1", "R2C12"]
-    expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
 
-    assert ns.natsorted([f"R{n}C{m}" for n in range(1, 11) for m in range(1, 13)]) == expected_fovs
-
+    tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+    prefix, expected_fovs, rows, cols = tiles[0]
+    assert prefix == ""
+    assert expected_fovs == ns.natsorted([f"R{n}C{m}" for n in range(1, 11) for m in range(1, 13)])
     assert (rows, cols) == (10, 12)
+
+    # MULTIPLE TILES
+    for tile_names in [("Tile_1_", "Tile_2_"), ("", "named_tile_")]:
+        prefix_1, prefix_2 = tile_names
+        fov_names = [f"{prefix_1}R6C9", f"{prefix_2}R3C5"]
+        tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+
+        # check first tile for 6x9
+        prefix, expected_fovs, rows, cols = tiles[0]
+        assert prefix == prefix_1[:-1] and (rows, cols) == (6, 9)
+        assert expected_fovs == ns.natsorted([f"{prefix_1}R{n}C{m}" for n in
+                                              range(1, 7) for m in range(1, 10)])
+
+        # check second tile for 3x5
+        prefix, expected_fovs, rows, cols = tiles[1]
+        assert prefix == prefix_2[:-1] and (rows, cols) == (3, 5)
+        assert expected_fovs == ns.natsorted([f"{prefix_2}R{n}C{m}" for n in
+                                              range(1, 4) for m in range(1, 6)])
 
 
 @pytest.mark.parametrize("single_dir, img_sub_folder", [(False, "TIFs"), (True, "")])

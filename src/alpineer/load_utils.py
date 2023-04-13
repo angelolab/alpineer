@@ -374,37 +374,44 @@ def get_tiled_fov_names(fov_list, return_dims=False):
         return_dims (bool):
             whether to also return row and col dimensions
     Returns:
-        tuple: names of all fovs expected for tiled image shape, and dimensions if return_dims
+        list: list of tuples containing the names of all fovs expected for tiled image shape,
+        if return_dims then also the prefix, row_num and col_num
     """
 
-    rows, cols, expected_fovs = [], [], []
+    expected_tiles = []
 
-    # check for run name prefix
-    prefix, fov_names = check_fov_name_prefix(fov_list)
+    # check for run name prefixes
+    tiled_fov_names = check_fov_name_prefix(fov_list)
+    prefixes = tiled_fov_names.keys()
     search_term: re.Pattern = re.compile(r"(R\+?\d+)(C\+?\d+)")
 
-    # get tiled image dimensions
-    for fov in fov_names:
-        R, C = re.search(search_term, fov).group(1, 2)
-        rows.append(int(R[1:]))
-        cols.append(int(C[1:]))
+    # get expected names for each tile
+    for tile in prefixes:
+        rows, cols, expected_fovs = [], [], []
+        fov_names = tiled_fov_names[tile]
+        # get tiled image dimensions
+        for fov in fov_names:
+            R, C = re.search(search_term, fov).group(1, 2)
+            rows.append(int(R[1:]))
+            cols.append(int(C[1:]))
+        row_num, col_num = max(rows), max(cols)
 
-    row_num, col_num = max(rows), max(cols)
+        # fill list of expected fov names
+        for n in range(row_num):
+            for m in range(col_num):
+                fov = f"R{n + 1}C{m + 1}"
+                # prepend run names
+                if tile == "":
+                    expected_fovs.append(fov)
+                else:
+                    expected_fovs.append(f"{tile}_" + fov)
 
-    # fill list of expected fov names
-    for n in range(row_num):
-        for m in range(col_num):
-            fov = f"R{n + 1}C{m + 1}"
-            # prepend run names
-            if prefix and fov in list(fov_names.keys()):
-                expected_fovs.append(f"{fov_names[fov]}_" + fov)
-            else:
-                expected_fovs.append(fov)
+        if return_dims:
+            expected_tiles.append((tile, expected_fovs, row_num, col_num))
+        else:
+            expected_tiles.append(expected_fovs)
 
-    if return_dims:
-        return expected_fovs, row_num, col_num
-    else:
-        return expected_fovs
+    return expected_tiles
 
 
 def load_tiled_img_data(
