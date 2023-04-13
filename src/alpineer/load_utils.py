@@ -383,7 +383,7 @@ def get_tiled_fov_names(fov_list, return_dims=False):
     # check for run name prefixes
     tiled_fov_names = check_fov_name_prefix(fov_list)
     prefixes = tiled_fov_names.keys()
-    search_term: re.Pattern = re.compile(r"(R\+?\d+)(C\+?\d+)")
+    search_term: re.Pattern = re.compile(r"R\+?(\d+)C\+?(\d+)")
 
     # get expected names for each tile
     for tile in prefixes:
@@ -392,8 +392,8 @@ def get_tiled_fov_names(fov_list, return_dims=False):
         # get tiled image dimensions
         for fov in fov_names:
             R, C = re.search(search_term, fov).group(1, 2)
-            rows.append(int(R[1:]))
-            cols.append(int(C[1:]))
+            rows.append(int(R))
+            cols.append(int(C))
         row_num, col_num = max(rows), max(cols)
 
         # fill list of expected fov names
