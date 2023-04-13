@@ -355,16 +355,16 @@ def test_load_imgs_from_dir():
 
 def test_check_fov_name_prefix():
     # check no prefix
-    prefix, fovs = load_utils.check_fov_name_prefix(["R1C1", "R1C2", "R1C3"])
-    assert prefix is False and fovs == ["R1C1", "R1C2", "R1C3"]
+    fovs = load_utils.check_fov_name_prefix(["R1C1", "R1C2", "R1C3"])
+    assert fovs == {"": ["R1C1", "R1C2", "R1C3"]}
 
     # check all fovs have prefix
-    prefix, fovs = load_utils.check_fov_name_prefix(["Run_1_R1C1", "Run_2_R1C2", "Run_1_R1C3"])
-    assert prefix is True and fovs == {"R1C1": "Run_1", "R1C2": "Run_2", "R1C3": "Run_1"}
+    fovs = load_utils.check_fov_name_prefix(["Run_1_R1C1", "Run_2_R1C2", "Run_1_R1C3"])
+    assert fovs == {"Run_1": ["R1C1", "R1C3"], "Run_2": ["R1C2"]}
 
     # check some fovs have prefix
-    prefix, fovs = load_utils.check_fov_name_prefix(["R1C1", "R1C2", "run1_R1C3"])
-    assert prefix is True and fovs == {"R1C1": "", "R1C2": "", "R1C3": "run1"}
+    fovs = load_utils.check_fov_name_prefix(["R1C1", "R1C2", "Tile1_R1C3"])
+    assert fovs == {"": ["R1C1", "R1C2"], "Tile1": ["R1C3"]}
 
 
 def test_get_tiled_fov_names():
@@ -380,6 +380,12 @@ def test_get_tiled_fov_names():
     expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
     assert expected_fovs == ["Run_10_R1C1", "Run_10_R1C2", "Run_20_R1C3"]
     assert (rows, cols) == (1, 3)
+
+    # check non-tiled fov in run is excluded
+    fov_names = ["R1C1", "R1C2", "R2C1", "R2C2", "not_tiled"]
+
+    expected_fovs = load_utils.get_tiled_fov_names(fov_names, return_dims=False)
+    assert expected_fovs == ["R1C1", "R1C2", "R2C1", "R2C2"]
 
     # check missing fovs, should return a list with all fovs for a 3x4 tiling
     fov_names = ["R1C1", "R1C2", "R2C1", "R2C4", "R3C1"]

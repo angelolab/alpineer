@@ -344,34 +344,25 @@ def load_imgs_from_dir(
 
 
 def check_fov_name_prefix(fov_list):
-    """Checks for a prefix (usually detailing a run name) in any of the provided FOV names
+    """Checks for a prefix (usually detailing a run/tile name) in any of the provided FOV names
 
     Args:
         fov_list (list): list of fov name
     Returns:
-        tuple: (bool) whether at least one fov names has a prefix,
-               (list / dict) if prefix, dictionary with fov name as keys and prefixes as values
-                otherwise return a simple list of the fov names
+        (dict): dictionary with prefixes as the keys and fov names as values
     """
 
-    # check for prefix in any of the fov names
-    prefix = False
+    # dict containing fov name and run name
+    fov_names = {}
     for folder in fov_list:
-        if re.search("R.{1,3}C.{1,3}", folder).start() != 0:
-            prefix = True
+        fov = "".join(folder.split("_")[-1:])
+        prefix_name = "_".join(folder.split("_")[:-1])
+        if prefix_name in fov_names.keys():
+            fov_names[prefix_name].append(fov)
+        else:
+            fov_names[prefix_name] = [fov]
 
-    if prefix:
-        # dict containing fov name and run name
-        fov_names = {}
-        for folder in fov_list:
-            fov = "".join(folder.split("_")[-1:])
-            prefix_name = "_".join(folder.split("_")[:-1])
-            fov_names[fov] = prefix_name
-    else:
-        # original list of fov names
-        fov_names = fov_list
-
-    return prefix, fov_names
+    return fov_names
 
 
 def get_tiled_fov_names(fov_list, return_dims=False):
