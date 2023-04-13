@@ -527,42 +527,45 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
         assert loaded_xr.equals(data_xr[:, :, :, :-1])
         assert loaded_xr.shape == (4, 10, 10, 1)
 
-        # check toffy dict loading
+        # check toffy dict loading with and without prefix
         if not single_dir:
-            toffy_fovs = {"R1C1": "fov-3", "R1C2": "fov-1", "R2C1": "fov-4", "R2C2": "fov-2"}
-            fovs = list(toffy_fovs.values())
-            expected_fovs = load_utils.get_tiled_fov_names(list(toffy_fovs.keys()))[0]
+            for prefix in ["Tile_1_", ""]:
+                with tempfile.TemporaryDirectory() as temp_dir2:
+                    toffy_fovs = {f"{prefix}R1C1": "fov-3", f"{prefix}R1C2": "fov-1",
+                                  f"{prefix}R2C1": "fov-4", f"{prefix}R2C2": "fov-2"}
+                    fovs = list(toffy_fovs.values())
+                    expected_fovs = load_utils.get_tiled_fov_names(list(toffy_fovs.keys()))[0]
 
-            filelocs, data_xr = test_utils.create_paired_xarray_fovs(
-                temp_dir,
-                fovs,
-                ["chan1", "chan2"],
-                img_shape=(10, 10),
-                delimiter="_",
-                fills=True,
-                sub_dir=img_sub_folder,
-                dtype="int16",
-                single_dir=single_dir,
-            )
-            data_xr["fovs"] = list(toffy_fovs.keys())
+                    filelocs, data_xr = test_utils.create_paired_xarray_fovs(
+                        temp_dir2,
+                        fovs,
+                        ["chan1", "chan2"],
+                        img_shape=(10, 10),
+                        delimiter="_",
+                        fills=True,
+                        sub_dir=img_sub_folder,
+                        dtype="int16",
+                        single_dir=single_dir,
+                    )
+                    data_xr["fovs"] = list(toffy_fovs.keys())
 
-            # remove images and expected data for one fov
-            data_xr[2, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
-            shutil.rmtree(os.path.join(temp_dir, "fov-4"))
-            toffy_fovs.pop("R2C1")
+                    # remove images and expected data for one fov
+                    data_xr[2, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
+                    shutil.rmtree(os.path.join(temp_dir2, "fov-4"))
+                    toffy_fovs.pop(list(toffy_fovs.keys())[2])
 
-            # check successful loading for one channel
-            loaded_xr = load_utils.load_tiled_img_data(
-                temp_dir,
-                toffy_fovs,
-                expected_fovs,
-                "chan1",
-                single_dir=single_dir,
-                img_sub_folder=img_sub_folder,
-            )
+                    # check successful loading for one channel
+                    loaded_xr = load_utils.load_tiled_img_data(
+                        temp_dir2,
+                        toffy_fovs,
+                        expected_fovs,
+                        "chan1",
+                        single_dir=single_dir,
+                        img_sub_folder=img_sub_folder,
+                    )
 
-            assert loaded_xr.equals(data_xr[:, :, :, :-1])
-            assert loaded_xr.shape == (4, 10, 10, 1)
+                    assert loaded_xr.equals(data_xr[:, :, :, :-1])
+                    assert loaded_xr.shape == (4, 10, 10, 1)
 
     # test loading with data_xr containing float values
     with tempfile.TemporaryDirectory() as temp_dir:
