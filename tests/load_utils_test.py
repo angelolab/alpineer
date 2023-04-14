@@ -369,7 +369,6 @@ def test_check_fov_name_prefix():
 
 def test_get_tiled_fov_names():
     # SINGLE TILE
-
     # check no missing fovs and no prefix, should return a list with all fovs for a 2x2 tiling
     fov_names = ["R1C1", "R1C2", "R2C1", "R2C2"]
 

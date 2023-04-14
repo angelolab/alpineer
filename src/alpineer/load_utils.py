@@ -374,8 +374,8 @@ def get_tiled_fov_names(fov_list, return_dims=False):
         return_dims (bool):
             whether to also return row and col dimensions
     Returns:
-        list: list of tuples containing the names of all fovs expected for tiled image shape,
-        if return_dims then also the prefix, row_num and col_num
+        list: list of tuples the fov prefix, all fovs expected for tiled image shape,
+        row_num and col_num
     """
 
     expected_tiles = []
