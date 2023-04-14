@@ -539,7 +539,7 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
                         f"{prefix}R1C1": "fov-3",
                         f"{prefix}R1C2": "fov-1",
                         f"{prefix}R2C1": "fov-4",
-                        f"{prefix}R2C2": "fov-2"
+                        f"{prefix}R2C2": "fov-2",
                     }
                     fovs = list(toffy_fovs.values())
                     expected_fovs = load_utils.get_tiled_fov_names(list(toffy_fovs.keys()))[0]
