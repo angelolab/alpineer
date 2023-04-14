@@ -415,14 +415,16 @@ def test_get_tiled_fov_names():
         # check first tile for 6x9
         prefix, expected_fovs, rows, cols = tiles[0]
         assert prefix == prefix_1[:-1] and (rows, cols) == (6, 9)
-        assert expected_fovs == ns.natsorted([f"{prefix_1}R{n}C{m}" for n in
-                                              range(1, 7) for m in range(1, 10)])
+        assert expected_fovs == ns.natsorted(
+            [f"{prefix_1}R{n}C{m}" for n in range(1, 7) for m in range(1, 10)]
+        )
 
         # check second tile for 3x5
         prefix, expected_fovs, rows, cols = tiles[1]
         assert prefix == prefix_2[:-1] and (rows, cols) == (3, 5)
-        assert expected_fovs == ns.natsorted([f"{prefix_2}R{n}C{m}" for n in
-                                              range(1, 4) for m in range(1, 6)])
+        assert expected_fovs == ns.natsorted(
+            [f"{prefix_2}R{n}C{m}" for n in range(1, 4) for m in range(1, 6)]
+        )
 
 
 @pytest.mark.parametrize("single_dir, img_sub_folder", [(False, "TIFs"), (True, "")])
@@ -492,7 +494,7 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
             )
 
             # change data_xr fov names to match toffy names
-            data_xr.coords['fovs'] = loaded_xr['fovs']
+            data_xr.coords["fovs"] = loaded_xr["fovs"]
             assert loaded_xr.equals(data_xr[:, :, :, :-1])
             assert loaded_xr.shape == (3, 10, 10, 1)
 
@@ -533,8 +535,12 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
         if not single_dir:
             for prefix in ["Tile_1_", ""]:
                 with tempfile.TemporaryDirectory() as temp_dir2:
-                    toffy_fovs = {f"{prefix}R1C1": "fov-3", f"{prefix}R1C2": "fov-1",
-                                  f"{prefix}R2C1": "fov-4", f"{prefix}R2C2": "fov-2"}
+                    toffy_fovs = {
+                        f"{prefix}R1C1": "fov-3",
+                        f"{prefix}R1C2": "fov-1",
+                        f"{prefix}R2C1": "fov-4",
+                        f"{prefix}R2C2": "fov-2"
+                    }
                     fovs = list(toffy_fovs.values())
                     expected_fovs = load_utils.get_tiled_fov_names(list(toffy_fovs.keys()))[0]
 
