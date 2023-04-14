@@ -491,6 +491,8 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
                 img_sub_folder=img_sub_folder,
             )
 
+            # change data_xr fov names to match toffy names
+            data_xr.coords['fovs'] = loaded_xr['fovs']
             assert loaded_xr.equals(data_xr[:, :, :, :-1])
             assert loaded_xr.shape == (3, 10, 10, 1)
 

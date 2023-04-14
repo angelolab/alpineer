@@ -450,22 +450,6 @@ def load_tiled_img_data(
         fov_list = fovs
         tiled_names = []
 
-    # no missing fov images, load data normally and return array
-    if len(fov_list) == len(expected_fovs):
-        if single_dir:
-            img_xr = load_imgs_from_dir(
-                data_dir,
-                match_substring=channel,
-                xr_dim_name="channels",
-                trim_suffix="_" + channel,
-                xr_channel_names=[channel],
-            )
-        else:
-            img_xr = load_imgs_from_tree(
-                data_dir, img_sub_folder, fovs=fov_list, channels=[channel]
-            )
-        return img_xr
-
     # missing fov directories, read in a test image to get data type
     if single_dir:
         test_path = os.path.join(data_dir, expected_fovs[0] + "_" + channel + "." + file_ext)
