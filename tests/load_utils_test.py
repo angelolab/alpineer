@@ -355,66 +355,75 @@ def test_load_imgs_from_dir():
 
 def test_check_fov_name_prefix():
     # check no prefix
-    prefix, fovs = load_utils.check_fov_name_prefix(["R1C1", "R1C2", "R1C3"])
-    assert prefix is False and fovs == ["R1C1", "R1C2", "R1C3"]
+    fovs = load_utils.check_fov_name_prefix(["R1C1", "R1C2", "R1C3"])
+    assert fovs == {"": ["R1C1", "R1C2", "R1C3"]}
 
     # check all fovs have prefix
-    prefix, fovs = load_utils.check_fov_name_prefix(["Run_1_R1C1", "Run_2_R1C2", "Run_1_R1C3"])
-    assert prefix is True and fovs == {"R1C1": "Run_1", "R1C2": "Run_2", "R1C3": "Run_1"}
+    fovs = load_utils.check_fov_name_prefix(["Run_1_R1C1", "Run_2_R1C2", "Run_1_R1C3"])
+    assert fovs == {"Run_1": ["R1C1", "R1C3"], "Run_2": ["R1C2"]}
 
     # check some fovs have prefix
-    prefix, fovs = load_utils.check_fov_name_prefix(["R1C1", "R1C2", "run1_R1C3"])
-    assert prefix is True and fovs == {"R1C1": "", "R1C2": "", "R1C3": "run1"}
+    fovs = load_utils.check_fov_name_prefix(["R1C1", "R1C2", "Tile1_R1C3"])
+    assert fovs == {"": ["R1C1", "R1C2"], "Tile1": ["R1C3"]}
 
 
 def test_get_tiled_fov_names():
-    # check no missing fovs, should return a list with all fovs for a 3x4 tiling
+    # SINGLE TILE
+    # check no missing fovs and no prefix, should return a list with all fovs for a 2x2 tiling
     fov_names = ["R1C1", "R1C2", "R2C1", "R2C2"]
 
-    expected_fovs = load_utils.get_tiled_fov_names(fov_names, return_dims=False)
+    tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+    prefix, expected_fovs, rows, cols = tiles[0]
+    assert prefix == ""
     assert expected_fovs == ["R1C1", "R1C2", "R2C1", "R2C2"]
+    assert (rows, cols) == (2, 2)
 
     # check no missing fovs and run name attached, should return a list for 1x3 tiling
-    fov_names = ["Run_10_R1C1", "Run_10_R1C2", "Run_20_R1C3"]
+    fov_names = ["Run_10_R1C1", "Run_10_R1C2", "Run_10_R1C3"]
 
-    expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
-    assert expected_fovs == ["Run_10_R1C1", "Run_10_R1C2", "Run_20_R1C3"]
+    tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+    prefix, expected_fovs, rows, cols = tiles[0]
+    assert prefix == "Run_10"
+    assert expected_fovs == ["Run_10_R1C1", "Run_10_R1C2", "Run_10_R1C3"]
     assert (rows, cols) == (1, 3)
 
     # check missing fovs, should return a list with all fovs for a 3x4 tiling
     fov_names = ["R1C1", "R1C2", "R2C1", "R2C4", "R3C1"]
 
-    expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
-    assert expected_fovs == [
-        "R1C1",
-        "R1C2",
-        "R1C3",
-        "R1C4",
-        "R2C1",
-        "R2C2",
-        "R2C3",
-        "R2C4",
-        "R3C1",
-        "R3C2",
-        "R3C3",
-        "R3C4",
-    ]
+    tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+    prefix, expected_fovs, rows, cols = tiles[0]
+    assert prefix == ""
+    assert expected_fovs == ns.natsorted([f"R{n}C{m}" for n in range(1, 4) for m in range(1, 5)])
     assert (rows, cols) == (3, 4)
-
-    # check missing fovs with run name attached, should return a list with all fovs for 1x3 tiling
-    fov_names = ["Run_10_R1C1", "Run_20_R1C3"]
-
-    expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
-    assert expected_fovs == ["Run_10_R1C1", "R1C2", "Run_20_R1C3"]
-    assert (rows, cols) == (1, 3)
 
     # Check that indicies larger than 9 are handled appropriately.
     fov_names = ["R1C1", "R10C1", "R2C12"]
-    expected_fovs, rows, cols = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
 
-    assert ns.natsorted([f"R{n}C{m}" for n in range(1, 11) for m in range(1, 13)]) == expected_fovs
-
+    tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+    prefix, expected_fovs, rows, cols = tiles[0]
+    assert prefix == ""
+    assert expected_fovs == ns.natsorted([f"R{n}C{m}" for n in range(1, 11) for m in range(1, 13)])
     assert (rows, cols) == (10, 12)
+
+    # MULTIPLE TILES
+    for tile_names in [("Tile_1_", "Tile_2_"), ("", "named_tile_")]:
+        prefix_1, prefix_2 = tile_names
+        fov_names = [f"{prefix_1}R6C9", f"{prefix_2}R3C5"]
+        tiles = load_utils.get_tiled_fov_names(fov_names, return_dims=True)
+
+        # check first tile for 6x9
+        prefix, expected_fovs, rows, cols = tiles[0]
+        assert prefix == prefix_1[:-1] and (rows, cols) == (6, 9)
+        assert expected_fovs == ns.natsorted(
+            [f"{prefix_1}R{n}C{m}" for n in range(1, 7) for m in range(1, 10)]
+        )
+
+        # check second tile for 3x5
+        prefix, expected_fovs, rows, cols = tiles[1]
+        assert prefix == prefix_2[:-1] and (rows, cols) == (3, 5)
+        assert expected_fovs == ns.natsorted(
+            [f"{prefix_2}R{n}C{m}" for n in range(1, 4) for m in range(1, 6)]
+        )
 
 
 @pytest.mark.parametrize("single_dir, img_sub_folder", [(False, "TIFs"), (True, "")])
@@ -460,7 +469,7 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
         if not single_dir:
             toffy_fovs = {"R1C1": "fov-1", "R1C2": "fov-3", "R1C3": "fov-2"}
             fovs = list(toffy_fovs.values())
-            expected_fovs = load_utils.get_tiled_fov_names(list(toffy_fovs.keys()))
+            expected_fovs = load_utils.get_tiled_fov_names(list(toffy_fovs.keys()))[0]
 
             filelocs, data_xr = test_utils.create_paired_xarray_fovs(
                 temp_dir,
@@ -483,6 +492,8 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
                 img_sub_folder=img_sub_folder,
             )
 
+            # change data_xr fov names to match toffy names
+            data_xr.coords["fovs"] = loaded_xr["fovs"]
             assert loaded_xr.equals(data_xr[:, :, :, :-1])
             assert loaded_xr.shape == (3, 10, 10, 1)
 
@@ -519,42 +530,49 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
         assert loaded_xr.equals(data_xr[:, :, :, :-1])
         assert loaded_xr.shape == (4, 10, 10, 1)
 
-        # check toffy dict loading
+        # check toffy dict loading with and without prefix
         if not single_dir:
-            toffy_fovs = {"R1C1": "fov-3", "R1C2": "fov-1", "R2C1": "fov-4", "R2C2": "fov-2"}
-            fovs = list(toffy_fovs.values())
-            expected_fovs = load_utils.get_tiled_fov_names(list(toffy_fovs.keys()))
+            for prefix in ["Tile_1_", ""]:
+                with tempfile.TemporaryDirectory() as temp_dir2:
+                    toffy_fovs = {
+                        f"{prefix}R1C1": "fov-3",
+                        f"{prefix}R1C2": "fov-1",
+                        f"{prefix}R2C1": "fov-4",
+                        f"{prefix}R2C2": "fov-2",
+                    }
+                    fovs = list(toffy_fovs.values())
+                    expected_fovs = load_utils.get_tiled_fov_names(list(toffy_fovs.keys()))[0]
 
-            filelocs, data_xr = test_utils.create_paired_xarray_fovs(
-                temp_dir,
-                fovs,
-                ["chan1", "chan2"],
-                img_shape=(10, 10),
-                delimiter="_",
-                fills=True,
-                sub_dir=img_sub_folder,
-                dtype="int16",
-                single_dir=single_dir,
-            )
-            data_xr["fovs"] = list(toffy_fovs.keys())
+                    filelocs, data_xr = test_utils.create_paired_xarray_fovs(
+                        temp_dir2,
+                        fovs,
+                        ["chan1", "chan2"],
+                        img_shape=(10, 10),
+                        delimiter="_",
+                        fills=True,
+                        sub_dir=img_sub_folder,
+                        dtype="int16",
+                        single_dir=single_dir,
+                    )
+                    data_xr["fovs"] = list(toffy_fovs.keys())
 
-            # remove images and expected data for one fov
-            data_xr[2, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
-            shutil.rmtree(os.path.join(temp_dir, "fov-4"))
-            toffy_fovs.pop("R2C1")
+                    # remove images and expected data for one fov
+                    data_xr[2, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
+                    shutil.rmtree(os.path.join(temp_dir2, "fov-4"))
+                    toffy_fovs.pop(list(toffy_fovs.keys())[2])
 
-            # check successful loading for one channel
-            loaded_xr = load_utils.load_tiled_img_data(
-                temp_dir,
-                toffy_fovs,
-                expected_fovs,
-                "chan1",
-                single_dir=single_dir,
-                img_sub_folder=img_sub_folder,
-            )
+                    # check successful loading for one channel
+                    loaded_xr = load_utils.load_tiled_img_data(
+                        temp_dir2,
+                        toffy_fovs,
+                        expected_fovs,
+                        "chan1",
+                        single_dir=single_dir,
+                        img_sub_folder=img_sub_folder,
+                    )
 
-            assert loaded_xr.equals(data_xr[:, :, :, :-1])
-            assert loaded_xr.shape == (4, 10, 10, 1)
+                    assert loaded_xr.equals(data_xr[:, :, :, :-1])
+                    assert loaded_xr.shape == (4, 10, 10, 1)
 
     # test loading with data_xr containing float values
     with tempfile.TemporaryDirectory() as temp_dir:
