@@ -7,8 +7,8 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
-  build_lint_test:
-    name: Build and Test ${{ github.repository }} Pure Python Wheels
+  build:
+    name: ${{ github.repository }}
     runs-on: ubuntu-latest
     strategy:
       # Ensure that a wheel builder finishes even if another fails
