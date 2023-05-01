@@ -41,12 +41,12 @@ jobs:
           name: distributions
           path: dist
 
-      - uses: pypa/gh-action-pypi-publish@release/v1.6
+      - uses: pypa/gh-action-pypi-publish@release/v1.8
         with:
           user: __token__
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
-          packages_dir: dist/
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: dist/
           verbose: true
 
   pypi_publish:
@@ -64,9 +64,9 @@ jobs:
           path: dist
 
       - name: PYPI Publish
-        uses: pypa/gh-action-pypi-publish@release/v1.6
+        uses: pypa/gh-action-pypi-publish@release/v1.8
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-          packages_dir: dist/
+          packages-dir: dist/
           verbose: true
