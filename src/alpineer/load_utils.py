@@ -160,9 +160,7 @@ def load_imgs_from_tree(
         channels = [chan for _, chan in sorted(zip(channels_indices, all_channels))]
 
     if len(channels) == 0:
-        raise ValueError(
-            f"No images found in designated folder, {os.path.join(data_dir, fovs[0])}"
-        )
+        raise ValueError(f"No images found in designated folder, {os.path.join(data_dir, fovs[0])}")
 
     test_img = io.imread(os.path.join(data_dir, fovs[0], img_sub_folder, channels[0]))
 
