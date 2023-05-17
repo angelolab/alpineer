@@ -4,7 +4,7 @@
 
 | | |
 | ---        |    ---  |
-| CI / CD | [![CI](https://github.com/angelolab/alpineer/actions/workflows/ci.yml/badge.svg)](https://github.com/angelolab/alpineer/actions/workflows/ci.yml) [![Coverage Status](https://coveralls.io/repos/github/angelolab/alpineer/badge.svg?branch=main)](https://coveralls.io/github/angelolab/mibi-bin-tools?branch=main) |
+| CI / CD | [![CI](https://github.com/angelolab/alpineer/actions/workflows/ci.yml/badge.svg)](https://github.com/angelolab/alpineer/actions/workflows/ci.yml) [![Coverage Status](https://coveralls.io/repos/github/angelolab/alpineer/badge.svg?branch=main)](https://coveralls.io/github/angelolab/alpineer?branch=main) |
 | Package | [![PyPI - Version](https://img.shields.io/pypi/v/alpineer.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/alpineer/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/alpineer.svg?color=blue&label=Downloads&logo=pypi&logoColor=gold)](https://pypi.org/project/alpineer/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/alpineer.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/alpineer/) |
 |Meta | [![code style - Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/python/mypy) [![PyPI - License](https://img.shields.io/pypi/l/alpineer?color=9400d3)](LICENSE) |
 </div>
