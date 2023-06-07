@@ -452,7 +452,7 @@ def load_tiled_img_data(
 
     # missing fov directories, read in a test image to get data type
     if single_dir:
-        test_path = os.path.join(data_dir, expected_fovs[0] + "_" + channel + "." + file_ext)
+        test_path = os.path.join(data_dir, fov_list[0] + "_" + channel + "." + file_ext)
     else:
         test_path = os.path.join(
             os.path.join(data_dir, fov_list[0], img_sub_folder, channel + "." + file_ext)

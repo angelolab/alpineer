@@ -514,14 +514,14 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
         # remove images and expected data for one fov
         data_xr[2, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
         if single_dir:
-            os.remove(os.path.join(temp_dir, "R2C1_chan1.tiff"))
+            os.remove(os.path.join(temp_dir, "R1C1_chan1.tiff"))
         else:
-            shutil.rmtree(os.path.join(temp_dir, "R2C1"))
+            shutil.rmtree(os.path.join(temp_dir, "R1C1"))
 
         # check successful loading for one channel
         loaded_xr = load_utils.load_tiled_img_data(
             temp_dir,
-            ["R1C1", "R1C2", "R2C2"],
+            ["R1C2", "R2C1", "R2C2"],
             fovs,
             "chan1",
             single_dir=single_dir,
@@ -591,13 +591,13 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
         # remove images and expected data for one fov
         data_xr[2, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
         if single_dir:
-            os.remove(os.path.join(temp_dir, "R2C1_chan1.tiff"))
+            os.remove(os.path.join(temp_dir, "R1C1_chan1.tiff"))
         else:
-            shutil.rmtree(os.path.join(temp_dir, "R2C1"))
+            shutil.rmtree(os.path.join(temp_dir, "R1C1"))
 
         loaded_xr = load_utils.load_tiled_img_data(
             temp_dir,
-            ["R1C1", "R1C2", "R2C2"],
+            ["R1C2", "R2C1", "R2C2"],
             fovs,
             "chan1",
             single_dir=single_dir,
@@ -608,7 +608,7 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
 
     # test loading with run name prepend
     with tempfile.TemporaryDirectory() as temp_dir:
-        fovs = ["run_1_R1C1", "run_1_R1C2", "R2C1", "run_2_R2C2"]
+        fovs = ["R1C1", "run_1_R1C2", "run_1_R2C1", "run_2_R2C2"]
         filelocs, data_xr = test_utils.create_paired_xarray_fovs(
             temp_dir,
             fovs,
@@ -622,13 +622,13 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
         # remove images and expected data for one fov
         data_xr[2, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
         if single_dir:
-            os.remove(os.path.join(temp_dir, "R2C1_chan1.tiff"))
+            os.remove(os.path.join(temp_dir, "R1C1_chan1.tiff"))
         else:
-            shutil.rmtree(os.path.join(temp_dir, "R2C1"))
+            shutil.rmtree(os.path.join(temp_dir, "R1C1"))
 
         loaded_xr = load_utils.load_tiled_img_data(
             temp_dir,
-            ["run_1_R1C1", "run_1_R1C2", "run_2_R2C2"],
+            ["run_1_R1C2", "run_1_R2C1", "run_2_R2C2"],
             fovs,
             "chan1",
             single_dir=single_dir,
