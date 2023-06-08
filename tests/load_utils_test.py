@@ -512,7 +512,7 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
             single_dir=single_dir,
         )
         # remove images and expected data for one fov
-        data_xr[2, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
+        data_xr[0, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
         if single_dir:
             os.remove(os.path.join(temp_dir, "R1C1_chan1.tiff"))
         else:
@@ -558,8 +558,8 @@ def test_load_tiled_img_data(single_dir, img_sub_folder):
 
                     # remove images and expected data for one fov
                     data_xr[0, :, :, :] = np.zeros((10, 10, 1), dtype="int16")
-                    shutil.rmtree(os.path.join(temp_dir2, "fov-4"))
-                    toffy_fovs.pop(list(toffy_fovs.keys())[2])
+                    shutil.rmtree(os.path.join(temp_dir2, "fov-3"))
+                    toffy_fovs.pop(list(toffy_fovs.keys())[0])
 
                     # check successful loading for one channel
                     loaded_xr = load_utils.load_tiled_img_data(
