@@ -532,22 +532,11 @@ def fov_to_ome(
     # Reorder the DataArray as OME-TIFFs require [Channel, Y, X]
     fov_xr: xr.DataArray = load_imgs_from_tree(
         data_dir=data_dir, img_sub_folder=img_sub_folder, fovs=fovs, channels=channels
-    )
-
-    # convert to numpy for axes swapping without image rotation
-    fov_np = fov_xr.to_numpy()
-    fov_np = np.swapaxes(fov_np, 2, 3)
-    fov_np = np.swapaxes(fov_np, 1, 2)
-
-    fov_xr_reordered = xr.DataArray(
-        fov_np,
-        coords=[fov_xr.fovs, fov_xr.channels, fov_xr.rows, fov_xr.cols],
-        dims=["fovs", "channels", "rows", "cols"],
-    )
+    ).transpose("fovs", "channels", "rows", "cols")
 
     _compression: dict = {"algorithm": "zlib", "args": {"level": 6}}
 
-    for fov in fov_xr_reordered:
+    for fov in fov_xr:
         fov_name: str = fov.fovs.values
         ome_file_path: pathlib.Path = pathlib.Path(ome_save_dir) / f"{fov_name}.ome.tiff"
 

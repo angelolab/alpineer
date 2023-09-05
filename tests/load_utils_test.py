@@ -665,15 +665,7 @@ def create_img_data(tmp_path_factory) -> Iterator[Tuple[pathlib.Path, xr.DataArr
 
     # Create OME-TIFFs
     _compression: dict = {"algorithm": "zlib", "args": {"level": 6}}
-    data_np = data_xr.to_numpy()
-    data_np = np.swapaxes(data_np, 2, 3)
-    data_np = np.swapaxes(data_np, 1, 2)
-
-    data_xr_transposed = xr.DataArray(
-        data_np,
-        coords=[data_xr.fovs, data_xr.channels, data_xr.rows, data_xr.cols],
-        dims=["fovs", "channels", "rows", "cols"],
-    )
+    data_xr_transposed = data_xr.transpose("fovs", "channels", "rows", "cols")
 
     for fov in data_xr_transposed:
         fov_name: str = fov.fovs.values
