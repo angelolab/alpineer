@@ -535,7 +535,7 @@ def fov_to_ome(
     )
 
     # convert to numpy for axes swapping without image rotation
-    fov_np = fov_xr.as_numpy()
+    fov_np = fov_xr.to_numpy()
     fov_np = np.swapaxes(fov_np, 2, 3)
     fov_np = np.swapaxes(fov_np, 1, 2)
 

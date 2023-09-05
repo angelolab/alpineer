@@ -665,7 +665,7 @@ def create_img_data(tmp_path_factory) -> Iterator[Tuple[pathlib.Path, xr.DataArr
 
     # Create OME-TIFFs
     _compression: dict = {"algorithm": "zlib", "args": {"level": 6}}
-    data_np = data_xr.as_numpy()
+    data_np = data_xr.to_numpy()
     data_np = np.swapaxes(data_np, 2, 3)
     data_np = np.swapaxes(data_np, 1, 2)
 
