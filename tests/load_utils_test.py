@@ -665,7 +665,8 @@ def create_img_data(tmp_path_factory) -> Iterator[Tuple[pathlib.Path, xr.DataArr
 
     # Create OME-TIFFs
     _compression: dict = {"algorithm": "zlib", "args": {"level": 6}}
-    data_xr_transposed = data_xr.transpose("fovs", "channels", "cols", "rows")
+    data_xr_transposed = data_xr.transpose("fovs", "channels", "rows", "cols")
+
     for fov in data_xr_transposed:
         fov_name: str = fov.fovs.values
         ome_file_path: pathlib.Path = pathlib.Path(test_dir) / f"{fov_name}.ome.tiff"
@@ -726,7 +727,7 @@ class TestOMEConversion:
 
                 # Assert that the channel values in the OME-TIFF are correct.
                 for page, chan in zip(ome_tiff.pages, channels):
-                    actual_data = page.asarray().transpose()
+                    actual_data = page.asarray()
                     desired_data = self.data_xr.sel(fovs=fov_name, channels=chan).values
                     np.testing.assert_equal(actual_data, desired_data)
 

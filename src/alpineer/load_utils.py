@@ -532,7 +532,7 @@ def fov_to_ome(
     # Reorder the DataArray as OME-TIFFs require [Channel, Y, X]
     fov_xr: xr.DataArray = load_imgs_from_tree(
         data_dir=data_dir, img_sub_folder=img_sub_folder, fovs=fovs, channels=channels
-    ).transpose("fovs", "channels", "cols", "rows")
+    ).transpose("fovs", "channels", "rows", "cols")
 
     _compression: dict = {"algorithm": "zlib", "args": {"level": 6}}
 
@@ -613,6 +613,6 @@ def ome_to_fov(ome: Union[str, pathlib.Path], data_dir: Union[str, pathlib.Path]
 
             image_utils.save_image(
                 fname=save_dir / f"{channel}.tiff",
-                data=ome_tiff_page.asarray().transpose(),
+                data=ome_tiff_page.asarray(),
                 compression_level=6,
             )
