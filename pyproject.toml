@@ -10,9 +10,9 @@ authors = [
     "Sricharan Reddy Varra <srivarra@stanford.edu>",
 ]
 license = "Modified Apache 2.0"
-homepage = "https://github.com/angelolab/tmi"
-repository = "https://github.com/angelolab/tmi"
-documentation = "https://tmi.readthedocs.io"
+homepage = "https://github.com/angelolab/alpineer"
+repository = "https://github.com/angelolab/alpineer"
+documentation = "https://alpineer.readthedocs.io"
 readme = "README.md"
 packages = [{ include = 'alpineer', from = 'src' }]
 
