@@ -121,7 +121,7 @@ def load_imgs_from_tree(
         raise ValueError(f"No fovs found in directory, {data_dir}")
 
     # If the fov provided is a single string (`fov_1` instead of [`fov_1`])
-    if type(fovs) is str:
+    if not isinstance(fovs, list):
         fovs = [fovs]
     if img_sub_folder is None:
         # no img_sub_folder, change to empty string to read directly from base folder
@@ -139,7 +139,7 @@ def load_imgs_from_tree(
     # otherwise, fill channel names with correct file extension
     elif not all([img.endswith(tuple(EXTENSION_TYPES["IMAGE"])) for img in channels]):
         # need this to reorder channels back because list_files may mess up the ordering
-        channels_no_delim = [img.split(".")[0] for img in channels]
+        channels_no_delim = io_utils.remove_file_extensions(channels)
 
         all_channels = io_utils.list_files(
             dir_name=os.path.join(data_dir, fovs[0], img_sub_folder),
@@ -148,10 +148,13 @@ def load_imgs_from_tree(
         )
 
         # get the corresponding indices found in channels_no_delim
-        channels_indices = [channels_no_delim.index(chan.split(".")[0]) for chan in all_channels]
+        channels_indices = [
+            channels_no_delim.index(io_utils.remove_file_extensions([chan])[0])
+            for chan in all_channels
+        ]
 
         # verify if channels from user input are present in `all_channels`
-        all_channels_no_delim = [channel.split(".")[0] for channel in all_channels]
+        all_channels_no_delim = io_utils.remove_file_extensions(all_channels)
 
         misc_utils.verify_same_elements(
             all_channels_in_folder=all_channels_no_delim, all_channels_detected=channels_no_delim

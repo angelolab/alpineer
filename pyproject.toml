@@ -10,9 +10,9 @@ authors = [
     "Sricharan Reddy Varra <srivarra@stanford.edu>",
 ]
 license = "Modified Apache 2.0"
-homepage = "https://github.com/angelolab/tmi"
-repository = "https://github.com/angelolab/tmi"
-documentation = "https://tmi.readthedocs.io"
+homepage = "https://github.com/angelolab/alpineer"
+repository = "https://github.com/angelolab/alpineer"
+documentation = "https://alpineer.readthedocs.io"
 readme = "README.md"
 packages = [{ include = 'alpineer', from = 'src' }]
 
@@ -28,16 +28,17 @@ style = "pep440"
 metadata = false
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.9,<3.13"
 numpy = "1.*"
 natsort = "^8"
 tifffile = "*"
 matplotlib = "^3"
-pillow = "^9"
+pillow = "*"
 scikit-image = "0.*"
 xarray = "*"
 xmltodict = "^0.13.0"
 charset-normalizer = "^2.1.1"
+pytest = "^7.4.2"
 
 [tool.poetry.group.test]
 optional = true

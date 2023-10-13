@@ -84,6 +84,9 @@ def test_load_imgs_from_tree():
 
         fovs, chans, imgs = test_utils.gen_fov_chan_names(num_fovs=3, num_chans=3, return_imgs=True)
 
+        chans = [f"{chan}.0" for chan in chans]
+        imgs = [img.replace(".tiff", ".0.tiff") for img in imgs]
+
         filelocs, data_xr = test_utils.create_paired_xarray_fovs(
             temp_dir,
             fovs,
