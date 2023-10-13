@@ -139,8 +139,6 @@ def load_imgs_from_tree(
     # otherwise, fill channel names with correct file extension
     elif not all([img.endswith(tuple(EXTENSION_TYPES["IMAGE"])) for img in channels]):
         # need this to reorder channels back because list_files may mess up the ordering
-        # channels_no_delim = [os.path.splitext(img)[0] for img in channels]
-
         channels_no_delim = io_utils.remove_file_extensions(channels)
 
         all_channels = io_utils.list_files(
