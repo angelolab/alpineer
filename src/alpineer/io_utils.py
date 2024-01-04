@@ -2,6 +2,7 @@ import itertools
 import os
 import pathlib
 import warnings
+import re
 from typing import List
 
 from alpineer import misc_utils
@@ -81,7 +82,11 @@ def list_files(dir_name, substrs=None, exact_match=False, ignore_hidden=True):
             if any([substr == os.path.splitext(file)[0] for substr in substrs])
         ]
     else:
-        matches = [file for file in files if any([substr in file for substr in substrs])]
+        # Create a regular expression pattern from substrs with word boundaries
+        pattern = '|'.join(re.escape(substr) + r'\b' for substr in substrs)
+
+        # Use re.search to check if any of the substrings exactly match in the file names
+        matches = [file for file in files if re.search(pattern, file)]
 
     return matches
 
