@@ -83,7 +83,7 @@ def list_files(dir_name, substrs=None, exact_match=False, ignore_hidden=True):
         ]
     else:
         # Create a regular expression pattern from substrs with word boundaries
-        pattern = '|'.join(re.escape(substr) + r'\b' for substr in substrs)
+        pattern = '|'.join(re.escape(substr) + r'\b' for substr in substrs.split())
 
         # Use re.search to check if any of the substrings exactly match in the file names
         matches = [file for file in files if re.search(pattern, file)]
