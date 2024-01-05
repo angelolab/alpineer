@@ -236,6 +236,15 @@ def list_folders(dir_name, substrs=None, exact_match=False, ignore_hidden=True):
             if any([substr == os.path.splitext(folder)[0] for substr in substrs])
         ]
     else:
-        matches = [folder for folder in folders if any([substr in folder for substr in substrs])]
+        matches_list = []
+        for substr in substrs:
+            # Create a regular expression pattern from substrs with word boundaries
+            pattern = "|".join(re.escape(part) + r"\b" for part in substr.split("_"))
+            # Use re.search to check if any of the substrings exactly match in the file names
+            substr_matches = [folder for folder in folders if re.search(pattern, folder)]
+            # append matches for this substr to larger matches list.
+            matches_list.append(substr_matches)
+        # Flatten the list of match lists
+        matches = [folder for match in matches_list for folder in match]
 
     return matches
