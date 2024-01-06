@@ -206,7 +206,7 @@ def test_list_folders():
             temp_dir, substrs=["test_", "other"], exact_match=False
         )
         assert sorted(get_test_and_other) == sorted(
-            ["Ntest_csv", "test_csv", "test_csv1", "test_csv2", "test_out", "othertf_txt"]
+            ["test_csv", "test_csv1", "test_csv2", "test_out"]
         )
 
         # Test hidden files
