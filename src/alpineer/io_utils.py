@@ -84,9 +84,9 @@ def list_files(dir_name, substrs=None, exact_match=False, ignore_hidden=True):
     else:
         matches = []
         for substr in substrs:
-            substr_pattern = re.split("[^a-zA-Z0-9]", substr)
+            substr_pattern = list(filter(bool, re.split("[^a-zA-Z0-9]", substr)))
             for file in files:
-                file_pattern = re.split("[^a-zA-Z0-9]", file)
+                file_pattern = list(filter(bool, re.split("[^a-zA-Z0-9]", file)))
                 if set(substr_pattern).issubset(file_pattern):
                     matches.append(file)
 
@@ -235,10 +235,10 @@ def list_folders(dir_name, substrs=None, exact_match=False, ignore_hidden=True):
     else:
         matches = []
         for substr in substrs:
-            substr_pattern = re.split("[^a-zA-Z0-9]", substr)
-            for file in files:
-                file_pattern = re.split("[^a-zA-Z0-9]", file)
-                if set(substr_pattern).issubset(file_pattern):
-                    matches.append(file)
+            substr_pattern = list(filter(bool, re.split("[^a-zA-Z0-9]", substr)))
+            for folder in folders:
+                folder_pattern = list(filter(bool, re.split("[^a-zA-Z0-9]", folder)))
+                if set(substr_pattern).issubset(folder_pattern):
+                    matches.append(folder)
 
     return matches
