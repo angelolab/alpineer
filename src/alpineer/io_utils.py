@@ -82,16 +82,13 @@ def list_files(dir_name, substrs=None, exact_match=False, ignore_hidden=True):
             if any([substr == os.path.splitext(file)[0] for substr in substrs])
         ]
     else:
-        matches_list = []
+        matches = []
         for substr in substrs:
-            # Create a regular expression pattern from substrs with word boundaries
-            pattern = "|".join(re.escape(part) + r"\b" for part in substr.split("_"))
-            # Use re.search to check if any of the substrings exactly match in the file names
-            substr_matches = [file for file in files if re.search(pattern, file)]
-            # append matches for this substr to larger matches list.
-            matches_list.append(substr_matches)
-        # Flatten the list of match lists
-        matches = [file for match in matches_list for file in match]
+            substr_pattern = re.split("[^a-zA-Z0-9]", substr)
+            for file in files:
+                file_pattern = re.split("[^a-zA-Z0-9]", file)
+                if set(substr_pattern).issubset(file_pattern):
+                    matches.append(file)
 
     return matches
 
@@ -236,15 +233,12 @@ def list_folders(dir_name, substrs=None, exact_match=False, ignore_hidden=True):
             if any([substr == os.path.splitext(folder)[0] for substr in substrs])
         ]
     else:
-        matches_list = []
+        matches = []
         for substr in substrs:
-            # Create a regular expression pattern from substrs with word boundaries
-            pattern = "|".join(re.escape(part) + r"\b" for part in substr.split("_"))
-            # Use re.search to check if any of the substrings exactly match in the file names
-            substr_matches = [folder for folder in folders if re.search(pattern, folder)]
-            # append matches for this substr to larger matches list.
-            matches_list.append(substr_matches)
-        # Flatten the list of match lists
-        matches = [folder for match in matches_list for folder in match]
+            substr_pattern = re.split("[^a-zA-Z0-9]", substr)
+            for file in files:
+                file_pattern = re.split("[^a-zA-Z0-9]", file)
+                if set(substr_pattern).issubset(file_pattern):
+                    matches.append(file)
 
     return matches
