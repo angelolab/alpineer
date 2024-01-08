@@ -1,6 +1,7 @@
 import itertools
 import os
 import pathlib
+import re
 import warnings
 from typing import List
 
@@ -81,7 +82,13 @@ def list_files(dir_name, substrs=None, exact_match=False, ignore_hidden=True):
             if any([substr == os.path.splitext(file)[0] for substr in substrs])
         ]
     else:
-        matches = [file for file in files if any([substr in file for substr in substrs])]
+        matches = []
+        for substr in substrs:
+            substr_pattern = list(filter(bool, re.split("[^a-zA-Z0-9]", substr)))
+            for file in files:
+                file_pattern = list(filter(bool, re.split("[^a-zA-Z0-9]", file)))
+                if set(substr_pattern).issubset(file_pattern):
+                    matches.append(file)
 
     return matches
 
@@ -226,6 +233,12 @@ def list_folders(dir_name, substrs=None, exact_match=False, ignore_hidden=True):
             if any([substr == os.path.splitext(folder)[0] for substr in substrs])
         ]
     else:
-        matches = [folder for folder in folders if any([substr in folder for substr in substrs])]
+        matches = []
+        for substr in substrs:
+            substr_pattern = list(filter(bool, re.split("[^a-zA-Z0-9]", substr)))
+            for folder in folders:
+                folder_pattern = list(filter(bool, re.split("[^a-zA-Z0-9]", folder)))
+                if set(substr_pattern).issubset(folder_pattern):
+                    matches.append(folder)
 
     return matches

@@ -127,6 +127,32 @@ def test_list_files():
         )
         assert sorted(get_hidden_files) == [".chan-metadata.tiff"]
 
+    # test delimiter functionality of substr matching
+    with tempfile.TemporaryDirectory() as temp_dir:
+        filenames = [
+            "fov1.tiff",
+            "fov1_test.tiff",
+            "fov10.tiff",
+            "fov2.tiff",
+            "fov2_test.tiff",
+            "fov20.tiff",
+            "fov3.tiff",
+            "fov3_test.tiff",
+            "fov30.tiff",
+        ]
+        for filename in filenames:
+            pathlib.Path(os.path.join(temp_dir, filename)).touch()
+
+        # test substrs is not list (single string)
+        get_txt = io_utils.list_files(temp_dir, substrs="fov1")
+        assert sorted(get_txt) == sorted(["fov1.tiff", "fov1_test.tiff"])
+
+        # test substrs is list
+        get_test_and_other = io_utils.list_files(temp_dir, substrs=["fov1", "fov2"])
+        assert sorted(get_test_and_other) == sorted(
+            ["fov1.tiff", "fov1_test.tiff", "fov2.tiff", "fov2_test.tiff"]
+        )
+
 
 def test_remove_file_extensions():
     # test a mixture of file paths and extensions
@@ -206,7 +232,7 @@ def test_list_folders():
             temp_dir, substrs=["test_", "other"], exact_match=False
         )
         assert sorted(get_test_and_other) == sorted(
-            ["Ntest_csv", "test_csv", "test_csv1", "test_csv2", "test_out", "othertf_txt"]
+            ["test_csv", "test_csv1", "test_csv2", "test_out"]
         )
 
         # Test hidden files
@@ -243,3 +269,33 @@ def test_list_folders():
             temp_dir, substrs=".hidden_dir", exact_match=True, ignore_hidden=False
         )
         assert get_hidden_dirs == [".hidden_dir"]
+
+    # test delimiter functionality of substr matching
+    with tempfile.TemporaryDirectory() as temp_dir:
+        dirnames = [
+            "test1",
+            "test1_folder",
+            "test10",
+            "test2",
+            "test2_folder",
+            "test20",
+            "test3",
+            "test3_folder",
+            "test30",
+        ]
+
+        dirnames.sort()
+        for dirname in dirnames:
+            os.mkdir(os.path.join(temp_dir, dirname))
+
+        # test substrs is not list (single string)
+        get_txt = io_utils.list_folders(temp_dir, substrs="test1", exact_match=False)
+        assert sorted(get_txt) == sorted(["test1", "test1_folder"])
+
+        # test substrs is list
+        get_test_and_other = io_utils.list_folders(
+            temp_dir, substrs=["test1", "test2"], exact_match=False
+        )
+        assert sorted(get_test_and_other) == sorted(
+            ["test1", "test1_folder", "test2", "test2_folder"]
+        )
