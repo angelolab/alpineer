@@ -129,8 +129,17 @@ def test_list_files():
 
     # test delimiter functionality of substr matching
     with tempfile.TemporaryDirectory() as temp_dir:
-        filenames = ["fov1.tiff", "fov1_test.tiff", "fov10.tiff", "fov2.tiff", "fov2_test.tiff",
-                     "fov20.tiff", "fov3.tiff", "fov3_test.tiff", "fov30.tiff"]
+        filenames = [
+            "fov1.tiff",
+            "fov1_test.tiff",
+            "fov10.tiff",
+            "fov2.tiff",
+            "fov2_test.tiff",
+            "fov20.tiff",
+            "fov3.tiff",
+            "fov3_test.tiff",
+            "fov30.tiff",
+        ]
         for filename in filenames:
             pathlib.Path(os.path.join(temp_dir, filename)).touch()
 
@@ -263,8 +272,17 @@ def test_list_folders():
 
     # test delimiter functionality of substr matching
     with tempfile.TemporaryDirectory() as temp_dir:
-        dirnames = ["test1", "test1_folder", "test10", "test2", "test2_folder",
-                    "test20", "test3", "test3_folder", "test30"]
+        dirnames = [
+            "test1",
+            "test1_folder",
+            "test10",
+            "test2",
+            "test2_folder",
+            "test20",
+            "test3",
+            "test3_folder",
+            "test30",
+        ]
 
         dirnames.sort()
         for dirname in dirnames:
