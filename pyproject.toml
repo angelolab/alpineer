@@ -38,7 +38,6 @@ scikit-image = "0.*"
 xarray = "*"
 xmltodict = "^0.13.0"
 charset-normalizer = "^2.1.1"
-pytest = "^7.4.2"
 
 [tool.poetry.group.test]
 optional = true
