@@ -8,26 +8,26 @@ repos:
         name: Check - End Files on New Line
       - id: trailing-whitespace
         name: Remove Trailing Whitespace
-        stages: [commit, push, manual]
+        stages: [pre-commit, pre-push, manual]
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
       - id: black
         name: Formatting - black
-        stages: [commit, push, manual]
+        stages: [pre-commit, pre-push, manual]
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
       - id: isort
         name: Formatting - isort
-        stages: [commit, push, manual]
+        stages: [pre-commit, pre-push, manual]
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.5.1
     hooks:
       - id: mypy
         name: Static Type Checking - mypy
         additional_dependencies: [numpy, pytest, xarray]
-        stages: [commit, push, manual]
+        stages: [pre-commit, pre-push, manual]
         args: ["--config-file", "pyproject.toml"]
         files: '.*\.py[i]?'
 
@@ -36,4 +36,4 @@ repos:
     hooks:
       - id: poetry-check
         name: Check - Poetry Configuration
-        stages: [commit, push, manual]
+        stages: [pre-commit, pre-push, manual]

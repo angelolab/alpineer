@@ -2,9 +2,9 @@ import os
 import pathlib
 from typing import Iterator
 
+import imageio.v3 as iio
 import numpy as np
 import pytest
-import skimage.io as io
 
 from alpineer import image_utils
 
@@ -35,12 +35,7 @@ class TestSaveImage:
         self.data: np.ndarray = create_img_data
 
         # save uncompressed image
-        io.imsave(
-            self.uncompressed_fname,
-            arr=self.data,
-            plugin="tifffile",
-            check_contrast=False,
-        )
+        iio.imwrite(uri=self.uncompressed_fname, image=self.data, plugin="tifffile")
 
     @pytest.mark.parametrize("compress_level", [1, 6, 9, pytest.param(10, marks=pytest.mark.xfail)])
     def test_save_compressed_img(self, compress_level):
@@ -58,7 +53,7 @@ class TestSaveImage:
         # Assert that the values in the compressed tiff file and the uncompressed
         # tiff file are equal.
 
-        uncompressed_data: np.ndarray = io.imread(self.uncompressed_fname)
-        compressed_data: np.ndarray = io.imread(self.compressed_fname)
+        uncompressed_data: np.ndarray = iio.imread(self.uncompressed_fname)
+        compressed_data: np.ndarray = iio.imread(self.compressed_fname)
 
         np.testing.assert_array_equal(compressed_data, uncompressed_data)
