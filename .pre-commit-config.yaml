@@ -10,7 +10,7 @@ repos:
         name: Remove Trailing Whitespace
         stages: [pre-commit, pre-push, manual]
   - repo: https://github.com/psf/black
-    rev: 23.9.1
+    rev: 25.9.0
     hooks:
       - id: black
         name: Formatting - black
@@ -22,7 +22,7 @@ repos:
         name: Formatting - isort
         stages: [pre-commit, pre-push, manual]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.5.1
+    rev: v1.20.2
     hooks:
       - id: mypy
         name: Static Type Checking - mypy
