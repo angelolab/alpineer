@@ -182,10 +182,10 @@ def verify_same_elements(enforce_order=False, warn=False, **kwargs) -> bool:
 
     if not np.all(set(list_one_cast) == set(list_two_cast)):
         # Values in list one that are not in list two
-        missing_vals_1 = [str(val) for val in (set(list_one_cast) - set(list_two_cast))]
+        missing_vals_1 = [str(val) for val in set(list_one_cast) - set(list_two_cast)]
 
         # Values in list two that are not in list one
-        missing_vals_2 = [str(val) for val in (set(list_two_cast) - set(list_one_cast))]
+        missing_vals_2 = [str(val) for val in set(list_two_cast) - set(list_one_cast)]
 
         # Total missing values
         missing_vals_total = [str(val) for val in set(list_one_cast) ^ set(list_two_cast)]
